@@ -125,14 +125,6 @@ export const NavigationMenu = [
     outlineIcon: <FaRegUser />,
     location: "/contacts",
   },
-
-  {
-    id: 3,
-    title: "Settings",
-    icon: <IoSettingsSharp />,
-    outlineIcon: <IoSettingsOutline />,
-    // location: "/settings",
-  },
   {
     id: 4,
     title: "Broadcast",
@@ -146,5 +138,12 @@ export const NavigationMenu = [
     icon: <BsBarChartLineFill />,
     outlineIcon: <BsBarChartLine />,
     // location: "/reporting",
+  },
+  {
+    id: 3,
+    title: "Settings",
+    icon: <IoSettingsSharp />,
+    outlineIcon: <IoSettingsOutline />,
+    location: "/settings",
   },
 ];

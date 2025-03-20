@@ -2,10 +2,10 @@ import { GLOBAL_ICONS } from "../../../utils/icons";
 import { RippleButton } from "../../../components/button/RippleButton";
 import { CostumTooltip } from "../../../components/tooltip/CustomTooltip";
 import { useState } from "react";
-import { set, UseFormSetValue, UseFormWatch } from "react-hook-form";
+import { UseFormSetValue, UseFormWatch } from "react-hook-form";
 import Select from "../../../components/form/SelectInput";
 import LargeSelect from "../../../components/form/LargeSelectInput";
-import InputSearch from "../../../components/form/SearchInput";
+import SearchInput from "../../../components/form/SearchInput";
 import { ConversationState } from ".";
 
 const filteringConversation = [
@@ -102,7 +102,7 @@ const Header = ({ watch, setValue }: Props) => {
                   <span>{GLOBAL_ICONS.filter}</span>
                 </RippleButton>
               </CostumTooltip>
-              <InputSearch placeholder="Cari Percakapan" show={() => {}} />
+              <SearchInput placeholder="Cari Percakapan" show={() => {}} />
             </div>
           )}
         </div>

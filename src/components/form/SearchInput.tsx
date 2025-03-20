@@ -6,7 +6,7 @@ type Props = {
   show: (value: boolean) => void;
 };
 
-const InputSearch = ({
+const SearchInput = ({
   show,
   ...props
 }: Props & HTMLProps<HTMLInputElement>) => {
@@ -67,4 +67,4 @@ const InputSearch = ({
   );
 };
 
-export default InputSearch;
+export default SearchInput;

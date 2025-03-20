@@ -8,6 +8,8 @@ import { setIsDarkMode } from "./utils/store/slices/theme";
 import moment from "moment";
 import Conversations from "./pages/conversations";
 import Register from "./pages/register";
+import Contacts from "./pages/contacts";
+import Settings from "./pages/settings";
 
 const App = () => {
   moment.locale("id");
@@ -32,13 +34,20 @@ const App = () => {
         { path: "/login", element: <Login /> },
         { path: "/register", element: <Register /> },
         {
-          path: "/conversations",
+          path: "/",
           element: <Layout />,
           children: [
             {
-              path: "",
-              index: true,
+              path: "conversations",
               element: <Conversations />,
+            },
+            {
+              path: "contacts",
+              element: <Contacts />,
+            },
+            {
+              path: "settings",
+              element: <Settings />,
             },
           ],
         },

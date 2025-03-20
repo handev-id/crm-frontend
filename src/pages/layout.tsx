@@ -53,6 +53,12 @@ const Layout = () => {
     }
   }, [cookies.token]);
 
+  useEffect(() => {
+    if (location === "/") {
+      navigate("/conversations", { replace: true });
+    }
+  }, [location]);
+
   return (
     <>
       <div
