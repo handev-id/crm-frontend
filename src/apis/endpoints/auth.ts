@@ -2,7 +2,7 @@ import useLazyGetApi from "../methods/lazy-get";
 import usePostApi from "../methods/post";
 import { UserModel } from "../models/user";
 
-export default class authEndpoint {
+export default class AuthEndpoint {
   static login() {
     return usePostApi<Partial<UserModel>>({
       endpoint: "/auth/login",

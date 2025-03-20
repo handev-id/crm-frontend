@@ -1,26 +1,26 @@
 import { useState } from "react";
-import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
-import PositionedContainer from "../components/PositionedContainer";
+import { useNavigate } from "react-router-dom";
 import { GLOBAL_ICONS } from "../utils/icons";
 import { RippleButton } from "../components/button/RippleButton";
 import { Loading } from "../components/Loading";
 import { UserModel } from "../apis/models/user";
+import PositionedContainer from "../components/PositionedContainer";
 import Input from "../components/form/Input";
-import authEndpoint from "../apis/endpoints/auth";
+import AuthEndpoint from "../apis/endpoints/auth";
 
 const Register = () => {
-  const [_, setCookie] = useCookies();
   const [isPassword, setIsPassword] = useState(true);
   const { handleSubmit, register } = useForm<UserModel>();
+  const navigate = useNavigate();
 
-  const registerApi = authEndpoint.register();
+  const registerApi = AuthEndpoint.register();
 
   const onLogin = (data: UserModel) => {
     registerApi.mutate(data, {
       onSuccess: (result) => {
         if (result) {
-          // window.location.href = "/conversations";
+          navigate("/conversatons");
         }
       },
       onError: (error) => {

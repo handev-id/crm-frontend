@@ -13,9 +13,11 @@ import moment from "moment";
 import OnlineStatus from "../components/OnlineStatus";
 import logo from "../assets/images/apple-touch-icon.png";
 import { useCookies } from "react-cookie";
-import authEndpoint from "../apis/endpoints/auth";
+import AuthEndpoint from "../apis/endpoints/auth";
 import { useEffect } from "react";
 import { axiosInstance } from "../apis/axios";
+import { setSocket } from "../utils/store/slices/socket";
+import { io } from "socket.io-client";
 
 const Layout = () => {
   const navigate = useNavigate();
@@ -25,12 +27,11 @@ const Layout = () => {
   const [cookies, , removeCookie] = useCookies(["token"]);
   const { isOpenDetail } = useSelector((state: RootState) => state.drawer);
   const { isDarkMode, theme } = useSelector((state: RootState) => state.theme);
-  const { data: myProfile } = useSelector((state: RootState) => state.profile);
 
   const onChangeTheme = () => {
     dispatch(setTheme(theme === "dark" ? "light" : "dark"));
   };
-  const checkTokenApi = authEndpoint.checkToken();
+  const checkTokenApi = AuthEndpoint.checkToken();
 
   useEffect(() => {
     if (cookies.token) {
@@ -43,6 +44,17 @@ const Layout = () => {
         {
           onSuccess: () => {
             axiosInstance.defaults.headers.common.Authorization = `Bearer ${cookies.token}`;
+
+            dispatch(
+              setSocket(
+                io(axiosInstance.defaults.baseURL!.replace("/api", "/"), {
+                  auth: {
+                    token: cookies.token,
+                  },
+                  transports: ["websocket"],
+                })
+              )
+            );
           },
           onError: () => {
             removeCookie("token");
@@ -149,11 +161,7 @@ const Layout = () => {
             <OnlineStatus />
           </div>
           <div className="text-sm flex items-center gap-3">
-            <CostumTooltip
-              text={`Subscription Active until ${moment(
-                myProfile.expired_at
-              ).format("DD MMM YYYY")}`}
-            >
+            <CostumTooltip text={`Subscription Active until`}>
               <span className="bg-green-500 cursor-default px-2 py-1 font-semibold rounded-lg text-white">
                 active
               </span>

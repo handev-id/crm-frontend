@@ -1,23 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { MyProfile } from "../types/my-profile";
+import { UserModel } from "../../../apis/models/user";
 
-const initalState: { data: MyProfile } = {
-  data: {
-    profile: "",
-    email: "",
-    password: "",
-    token: "",
-    user_id: "",
-    expired_at: "",
-  },
+const initalState: { profile: UserModel | null } = {
+  profile: null
 };
 
 const profileSlice = createSlice({
   name: "profile",
   initialState: initalState,
   reducers: {
-    setProfile: (state, action) => {
-      state.data = action.payload;
+    setProfile: ({profile}, action) => {
+      profile = action.payload;
     },
   },
 });

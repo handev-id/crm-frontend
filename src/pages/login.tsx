@@ -8,14 +8,14 @@ import { Loading } from "../components/Loading";
 import { UserModel } from "../apis/models/user";
 import logo from "../assets/images/CAQAP 01.png";
 import Input from "../components/form/Input";
-import authEndpoint from "../apis/endpoints/auth";
+import AuthEndpoint from "../apis/endpoints/auth";
 
 const Login = () => {
   const [_, setCookie] = useCookies();
   const [isPassword, setIsPassword] = useState(true);
   const { handleSubmit, register } = useForm<Partial<UserModel>>();
 
-  const loginApi = authEndpoint.login();
+  const loginApi = AuthEndpoint.login();
 
   const onLogin = ({ email, password }: Partial<UserModel>) => {
     loginApi.mutate(
