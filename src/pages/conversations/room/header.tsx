@@ -1,4 +1,3 @@
-import React from "react";
 import { RippleButton } from "../../../components/button/RippleButton";
 import { GLOBAL_ICONS } from "../../../utils/icons";
 

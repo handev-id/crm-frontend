@@ -47,7 +47,7 @@ const Layout = () => {
 
             dispatch(
               setSocket(
-                io(axiosInstance.defaults.baseURL!.replace("/api", "/"), {
+                io(axiosInstance.defaults.baseURL!.replace("/api", ""), {
                   auth: {
                     token: cookies.token,
                   },
