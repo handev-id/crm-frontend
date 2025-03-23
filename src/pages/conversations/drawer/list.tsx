@@ -1,4 +1,4 @@
-import { RippleButton } from "../../../components/button/RippleButton";
+import { CustomButton } from "../../../components/button/CustomButton";
 import Avatar from "../../../components/Avatar";
 import { ConversationModel } from "../../../apis/models/conversation";
 import { UseFormWatch } from "react-hook-form";
@@ -15,7 +15,7 @@ type Props = {
 
 const ConversationList = ({ conversation, watch, onChange, value }: Props) => {
   return (
-    <div className="flex justify-between group dark:bg-Dark dark:hover:bg-neutralDark items-center border-b border-Dark/10 dark:border-white/10 cursor-pointer p-4 bg-white hover:bg-neutral">
+    <div className="flex justify-between group dark:bg-Dark dark:hover:bg-neutralDark items-center border-b border-base cursor-pointer p-4 bg-white hover:bg-neutral">
       <div
         className={`flex gap-2 h-full items-center duration-500 ${
           ((watch("conversationIds") as string[]) || []).length > 0
@@ -24,9 +24,9 @@ const ConversationList = ({ conversation, watch, onChange, value }: Props) => {
         }`}
       >
         <div>
-          <RippleButton
+          <CustomButton
             ripleColor="bg-black/30 dark:bg-white/30"
-            className="h-10 w-10 flex justify-center dark:bg-neutralDark dark:hover:bg-neutralHoverDark items-center rounded-full hover:bg-neutralHover"
+            className="h-10 w-10 flex justify-center dark:hover:bg-neutralHoverDark items-center rounded-full hover:bg-neutralHover"
           >
             <input
               onChange={(e) => {
@@ -45,7 +45,7 @@ const ConversationList = ({ conversation, watch, onChange, value }: Props) => {
               className="w-[19px] cursor-pointer h-[19px]"
               type="checkbox"
             />
-          </RippleButton>
+          </CustomButton>
         </div>
         <div>
           <div className="flex gap-2 items-center">

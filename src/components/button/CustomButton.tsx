@@ -6,7 +6,7 @@ type Props = {
   ripleColor?: string;
 };
 
-export function RippleButton({
+export function CustomButton({
   children,
   className,
   ripleColor,

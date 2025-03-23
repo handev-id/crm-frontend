@@ -19,7 +19,7 @@ const Contacts = () => {
       >
         <div
           className="flex justify-start gap-3 sticky top-0 bg-white dark:bg-Dark
-           items-center w-[1280px] xl:w-full py-3 px-4 mt-2 border-b border-Dark/10 dark:border-white/10"
+           items-center w-[1280px] xl:w-full py-3 px-4 mt-2 border-b border-base"
         >
           <h2 className="font-semibold w-[300px] text-neutralDark dark:text-neutral">
             Nama Lengkap
@@ -49,7 +49,7 @@ const Contacts = () => {
         ) : (
           <>
             {([] as UserModel[])?.map((contact) => (
-              <div className="flex cursor-pointer bg-white gap-3 dark:bg-Dark text-neutralDark dark:text-neutral hover:bg-neutral dark:hover:bg-neutralDark justify-start items-center text-sm w-[1280px] xl:w-full py-2.5 px-4 border-b border-Dark/10 dark:border-white/10">
+              <div className="flex cursor-pointer bg-white gap-3 dark:bg-Dark text-neutralDark dark:text-neutral hover:bg-neutral dark:hover:bg-neutralDark justify-start items-center text-sm w-[1280px] xl:w-full py-2.5 px-4 border-b border-base">
                 <div className="flex items-center gap-4 w-[300px]">
                   <img
                     src={contact?.avatar}

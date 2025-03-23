@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { RippleButton } from "../button/RippleButton";
+import { CustomButton } from "../button/CustomButton";
 import { FaChevronDown } from "react-icons/fa";
 
 export type OptionType = {
@@ -8,7 +8,7 @@ export type OptionType = {
 };
 
 type Props = {
-  leftItems?: React.ReactNode[]; // Opsional, dengan panjang sesuai `options`.
+  leftItems?: React.ReactNode[];
   options: OptionType[];
   onChange: (value: OptionType) => void;
   containerClassName?: string;
@@ -50,25 +50,26 @@ export default function Select({
 
   return (
     <div ref={dropdownRef} className={`relative ${containerClassName}`}>
-      <RippleButton
+      <CustomButton
         onClick={toggleDropdown}
         ripleColor="bg-black/30 dark:bg-white/30"
         type="button"
         className={`bg-transparent h-10 py-2 shadow-none text-xs sm:text-sm w-full rounded-lg text-end text-neutralDark dark:text-neutralHover p-2.5 hover:bg-neutral dark:hover:bg-neutralDark hover:shadow-none`}
       >
         <div className="flex items-center">
-          {leftItems.length > 0 &&
-            leftItems[options.findIndex((opt) => opt === selectedOption)]}
+          {leftItems.length > 0 && (
+            <span className="text-lg">{leftItems[options.findIndex((opt) => opt === selectedOption)]}</span>
+          )}
           <span className="ml-2">
-            {selectedOption ? selectedOption.label : "ALL"}
+            {selectedOption ? selectedOption.label : "Semua"} 
           </span>
           <FaChevronDown className="ml-auto" />
         </div>
-      </RippleButton>
+      </CustomButton>
 
       <div
         ref={bodyRef}
-        className={`origin-top-right w-full scrollbar overflow-y-auto absolute z-30 left-0 mt-1 rounded-md shadow-xl bg-white dark:bg-Dark transition-all duration-300 overflow-hidden ${
+        className={`origin-top-right w-full shadow-solid scrollbar overflow-y-auto absolute z-30 left-0 mt-1 rounded shadow-lg bg-white dark:bg-neutralDark transition-all duration-300 overflow-hidden ${
           isOpen ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
@@ -82,17 +83,17 @@ export default function Select({
             <button
               key={option.value}
               onClick={() => handleOptionClick(option)}
-              className={`block w-full text-start px-5 py-3 text-sm font-semibold text-neutralDark dark:text-neutral hover:bg-neutral dark:hover:bg-neutralDark ${
+              className={`block w-full text-start px-4 py-3 text-sm font-semibold text-neutralDark dark:text-neutral hover:bg-neutral dark:hover:bg-Dark ${
                 selectedOption === option
                   ? "bg-neutral dark:bg-neutralDark"
                   : ""
               }`}
               role="menuitem"
             >
-              <span className="flex items-center gap-2">
-                {leftItems[idx]}
+              <div className="flex items-center gap-2">
+                <span className="text-lg">{leftItems[idx]}</span>
                 <p>{option.label}</p>
-              </span>
+              </div>
             </button>
           ))}
         </div>

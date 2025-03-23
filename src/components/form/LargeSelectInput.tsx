@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import Input from "./Input";
-import { RippleButton } from "../button/RippleButton";
+import { CustomButton } from "../button/CustomButton";
 import { GLOBAL_ICONS } from "../../utils/icons";
 import ReactDOM from "react-dom";
 
@@ -93,7 +93,7 @@ export default function LargeSelect({
         width: dropdownPosition.width,
         zIndex: 9999,
       }}
-      className={`min-w-[300px] scrollbar overflow-y-auto rounded-md shadow-lg border border-neutral dark:border-neutralDark bg-white dark:bg-Dark transition-all duration-500 transform`}
+      className={`min-w-[300px] scrollbar overflow-y-auto rounded shadow-solid bg-white dark:bg-neutralDark transition-all duration-500 transform`}
     >
       <div
         className="py-1"
@@ -111,7 +111,7 @@ export default function LargeSelect({
             type="button"
             key={option.value}
             onClick={() => handleOptionClick(option)}
-            className={`block w-full text-start px-5 py-3 text-sm font-semibold text-neutralDark dark:text-neutral hover:bg-neutral dark:hover:bg-neutralDark ${
+            className={`block w-full text-start px-5 py-3 text-sm font-semibold text-neutralDark dark:text-neutral hover:bg-neutral dark:hover:bg-Dark ${
               selectedOption === option ? "bg-neutral dark:bg-neutralDark" : ""
             }`}
             role="menuitem"
@@ -131,7 +131,7 @@ export default function LargeSelect({
       {parent ? (
         <div onClick={toggleDropdown}>{parent}</div>
       ) : (
-        <RippleButton
+        <CustomButton
           onClick={toggleDropdown}
           ripleColor="bg-black/30 dark:bg-white/30"
           type="button"
@@ -145,7 +145,7 @@ export default function LargeSelect({
             </span>
             <FaChevronDown className="ml-auto" />
           </div>
-        </RippleButton>
+        </CustomButton>
       )}
       {isOpen && isReady && (
         <>{ReactDOM.createPortal(dropdownContent, document.body)}</>

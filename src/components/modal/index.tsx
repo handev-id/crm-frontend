@@ -1,7 +1,7 @@
 export * from "./use-modal";
-export * from "./ModalConfirm";
+export * from "./modal";
 
-export { default as Modal } from "./ModalConfirm";
+export { default as Modal } from "./modal";
 
 export type ModalType = {
   title: string;
