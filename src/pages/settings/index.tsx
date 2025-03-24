@@ -3,32 +3,30 @@ import SearchInput from "../../components/form/SearchInput";
 const Settings = () => {
   return (
     <div className="h-screen overflow-y-auto">
-    <div className="w-full bg-neutral/50 sticky blur-lg top-0 left-0 z-10 dark:bg-neutralHover border-b border-Dark/10 dark:border-neutral/10 sm:pl-[80px] p-6 pb-8">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-semibold mb-4">Settings</h1>
-        <div>
-          {/* <SearchInput show={(val) => {}} /> */}
+      <div className="w-full bg-neutral/50 top-0 left-0 z-10 dark:bg-neutralHover border-b border-Dark/10 dark:border-neutral/10 sm:pl-[80px] p-6 pb-8">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-semibold mb-4">Settings</h1>
+          <div>{/* <SearchInput show={(val) => {}} /> */}</div>
+        </div>
+        <div className="flex space-x-8">
+          <a className="text-gray-500 hover:text-gray-800" href="#">
+            General
+          </a>
+          <a className="text-gray-500 hover:text-gray-800" href="#">
+            Contact
+          </a>
+          <a className="text-gray-500 hover:text-gray-800" href="#">
+            Payment
+          </a>
+          <a className="text-gray-500 hover:text-gray-800" href="#">
+            Subscription
+          </a>
+          <a className="text-blue-600 font-semibold relative" href="#">
+            Account
+          </a>
         </div>
       </div>
-      <div className="flex space-x-8">
-        <a className="text-gray-500 hover:text-gray-800" href="#">
-          General
-        </a>
-        <a className="text-gray-500 hover:text-gray-800" href="#">
-          Contact
-        </a>
-        <a className="text-gray-500 hover:text-gray-800" href="#">
-          Payment
-        </a>
-        <a className="text-gray-500 hover:text-gray-800" href="#">
-          Subscription
-        </a>
-        <a className="text-blue-600 font-semibold relative" href="#">
-          Account
-        </a>
-      </div>
-    </div>
-    <div className="sm:pl-[80px] p-6 pb-8">
+      <div className="sm:pl-[80px] p-6 pb-8">
         <h2 className="text-xl font-semibold mb-4">Your Profile</h2>
         <p className="text-gray-500 mb-6">
           Please update your profile settings here
@@ -45,7 +43,7 @@ const Settings = () => {
               className="flex-1 border border-gray-300 rounded-r-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               type="text"
               value="X-AE-A-19"
-              />
+            />
           </div>
         </div>
         <div className="mb-4">
@@ -88,7 +86,7 @@ const Settings = () => {
           <textarea
             className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             rows={4}
-            >
+          >
             Hi there! 👋 I'm X-AE-A-19, an AI enthusiast and fitness aficionado.
             When I'm not crunching numbers or optimizing algorithms, you can
             find me hitting the gym.
@@ -96,7 +94,7 @@ const Settings = () => {
           <p className="text-gray-500 text-sm mt-2">325 characters remaining</p>
         </div>
       </div>
-              </div>
+    </div>
   );
 };
 
