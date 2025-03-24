@@ -1,13 +1,17 @@
 import { HTMLProps, useEffect, useState } from "react";
 import { GLOBAL_ICONS } from "../../utils/icons";
-import { RippleButton } from "../button/RippleButton";
+import { CustomButton } from "../button/CustomButton";
 
 type Props = {
   show: (value: boolean) => void;
+  isOpen?: boolean;
+  width?: string;
 };
 
 const SearchInput = ({
   show,
+  isOpen,
+  width,
   ...props
 }: Props & HTMLProps<HTMLInputElement>) => {
   const [isShow, setIsShow] = useState(false);
@@ -16,6 +20,22 @@ const SearchInput = ({
   useEffect(() => {
     show(isShow);
   }, [isShow]);
+
+  if (isOpen) {
+    return (
+      <div style={{ width }} className={"relative"}>
+        <input
+          {...props}
+          className="bg-neutral dark:text-neutral placeholder:text-sm text-Dark dark:bg-neutralHoverDark pl-4 pr-12 py-2.5 w-full rounded-lg outline-none"
+        />
+          <div
+            className={'text-[22px] text-neutralDark dark:text-neutralHover absolute top-3 right-4'}
+          >
+            <span>{GLOBAL_ICONS.search}</span>
+          </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -28,7 +48,7 @@ const SearchInput = ({
       >
         <input
           {...props}
-          className="bg-neutral dark:text-neutral text-Dark dark:bg-neutralDark placeholder:text-sm px-10 py-2.5 w-full rounded-lg placeholder:opacity-100 outline-none hover:bg-neutralHover/80 dark:hover:bg-neutralHoverDark"
+          className="bg-neutral dark:text-neutral dark:bg-neutralHoverDark placeholder:text-sm px-10 py-2.5 w-full rounded-lg outline-none"
         />
         <span className="absolute top-3 left-3 text-[20px]">
           {GLOBAL_ICONS.search}
@@ -54,13 +74,13 @@ const SearchInput = ({
             setSearchIcon(true);
           }}
         >
-          <RippleButton
+          <CustomButton
             ripleColor="bg-black/30 dark:bg-white/30"
             type="button"
             className={`bg-transparent shadow-none rounded-lg text-[22px] w-full text-neutralDark dark:text-neutralHover p-2.5 hover:bg-neutral dark:hover:bg-neutralDark hover:shadow-none`}
           >
             <span>{GLOBAL_ICONS.search}</span>
-          </RippleButton>
+          </CustomButton>
         </div>
       )}
     </>

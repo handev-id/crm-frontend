@@ -4,11 +4,11 @@ import { setIsOpen, setIsOpenDetail } from "../utils/store/slices/drawer";
 import { GLOBAL_ICONS, NavigationMenu } from "../utils/icons";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { CostumTooltip } from "../components/tooltip/CustomTooltip";
-import { RippleButton } from "../components/button/RippleButton";
+import { CustomButton } from "../components/button/CustomButton";
 import { useModal } from "../components/modal";
 import { setTheme } from "../utils/store/slices/theme";
 import Avatar from "../components/Avatar";
-import ModalConfirm from "../components/modal/ModalConfirm";
+import Modal from "../components/modal/modal";
 import moment from "moment";
 import OnlineStatus from "../components/OnlineStatus";
 import logo from "../assets/images/apple-touch-icon.png";
@@ -16,8 +16,7 @@ import { useCookies } from "react-cookie";
 import AuthEndpoint from "../apis/endpoints/auth";
 import { useEffect } from "react";
 import { axiosInstance } from "../apis/axios";
-import { setSocket } from "../utils/store/slices/socket";
-import { io } from "socket.io-client";
+import Button from "../components/button/Button";
 
 const Layout = () => {
   const navigate = useNavigate();
@@ -44,17 +43,6 @@ const Layout = () => {
         {
           onSuccess: () => {
             axiosInstance.defaults.headers.common.Authorization = `Bearer ${cookies.token}`;
-
-            dispatch(
-              setSocket(
-                io(axiosInstance.defaults.baseURL!.replace("/api", ""), {
-                  auth: {
-                    token: cookies.token,
-                  },
-                  transports: ["websocket"],
-                })
-              )
-            );
           },
           onError: () => {
             removeCookie("token");
@@ -89,7 +77,7 @@ const Layout = () => {
           ></div>
         )}
       </div>
-      <div className="fixed hidden sm:block left-0 top-0 bg-neutral dark:bg-neutralDark w-[65px] h-screen border-r z-30 border-Dark/10 dark:border-neutral/10">
+      <div className="fixed hidden sm:block left-0 top-0 bg-neutral dark:bg-neutralDark w-[65px] h-screen border-r z-30 border-base">
         <div className="flex flex-col items-center justify-between h-full">
           <div>
             <div className="py-3 px-1">
@@ -110,7 +98,7 @@ const Layout = () => {
                 }}
               >
                 <CostumTooltip text={menu.title}>
-                  <RippleButton
+                  <CustomButton
                     ripleColor="bg-black/30 dark:bg-white/30"
                     type="button"
                     className={`${
@@ -122,7 +110,7 @@ const Layout = () => {
                     {location.includes(menu?.location as string)
                       ? menu.icon
                       : menu.outlineIcon}
-                  </RippleButton>
+                  </CustomButton>
                 </CostumTooltip>
               </div>
             ))}
@@ -152,7 +140,7 @@ const Layout = () => {
       <Outlet />
 
       {/* CHILDREN END */}
-      <div className="fixed hidden sm:block pl-[85px] left-0 bottom-0 bg-neutral dark:bg-neutralDark w-full py-1.5 border-t z-20 border-Dark/10 dark:border-neutral/10">
+      <div className="fixed hidden sm:block pl-[85px] left-0 bottom-0 bg-neutral dark:bg-neutralDark w-full py-1.5 border-t z-20 border-base">
         <div className="pr-5 gap-3 flex justify-between items-center">
           <div>
             <span className="text-neutralDark dark:text-neutralHover text-sm mr-3">
@@ -192,7 +180,7 @@ const Layout = () => {
         </div>
       </div>
 
-      <div className="fixed hidden max-sm:block left-0 bottom-0 bg-neutral dark:bg-neutralDark w-full z-30">
+      <div className="fixed border-t border-base hidden max-sm:block left-0 bottom-0 bg-neutral dark:bg-neutralDark w-full z-30">
         <div className="grid grid-cols-5">
           {NavigationMenu.map((menu, idx) => (
             <div
@@ -208,7 +196,7 @@ const Layout = () => {
                 }
               }}
             >
-              <RippleButton
+              <CustomButton
                 ripleColor="bg-black/30 dark:bg-white/30"
                 type="button"
                 className={`flex items-center flex-col justify-center ${
@@ -221,42 +209,21 @@ const Layout = () => {
                   ? menu.icon
                   : menu.outlineIcon}
                 <div className="text-xs mt-[2px]">{menu?.title}</div>
-              </RippleButton>
+              </CustomButton>
             </div>
           ))}
         </div>
       </div>
 
-      <ModalConfirm
+      <Modal
         control={modalConfirm.control}
-        title="Are You sure want to logout ?"
+        title="Apakah anda yakin ingin keluar ?"
       >
-        <div className="flex gap-4 text-sm">
-          <div>
-            <RippleButton
-              onClick={() => modalConfirm.control.close()}
-              ripleColor="bg-red-500/40"
-              type="button"
-              className="bg-transparent hover:bg-red-500/10 text-red-500 border border-red-500 py-3 px-6 rounded-lg"
-            >
-              Cancel
-            </RippleButton>
-          </div>
-          <div>
-            <RippleButton
-              onClick={() => {
-                removeCookie("token");
-                window.location.href = "/login";
-              }}
-              ripleColor="bg-white/70"
-              type="button"
-              className="bg-primary text-white py-3 px-6 rounded-lg"
-            >
-              Confirm
-            </RippleButton>
-          </div>
+        <div className="flex justify-center gap-4">
+          <Button coloring="danger">Batal</Button>
+          <Button coloring="primary">Keluar</Button>
         </div>
-      </ModalConfirm>
+      </Modal>
     </>
   );
 };

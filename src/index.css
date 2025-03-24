@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+.border-base {
+  @apply border-Dark/10 dark:border-white/10;
+}
+
+.cn-box-base {
+  @apply shadow-lg dark:bg-neutralDark bg-white border border-base p-4 rounded-lg
+}
+
+.h1 {
+  @apply font-bold text-[20px];
+}
+
+.h2 {
+  @apply font-bold text-[18px];
+}
+
 .spinner {
   width: 56px;
   height: 56px;
@@ -62,6 +78,13 @@ body {
     transform: rotate(1turn);
   }
 }
+
+.shadow-solid {
+  box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2),
+              0px 5px 8px 0px rgba(0, 0, 0, 0.14),
+              0px 1px 14px 0px rgba(0, 0, 0, 0.12);
+}
+
 
 .tooltipText {
   font-size: 12px;

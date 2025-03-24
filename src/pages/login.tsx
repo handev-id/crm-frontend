@@ -3,7 +3,7 @@ import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
 import PositionedContainer from "../components/PositionedContainer";
 import { GLOBAL_ICONS } from "../utils/icons";
-import { RippleButton } from "../components/button/RippleButton";
+import { CustomButton } from "../components/button/CustomButton";
 import { Loading } from "../components/Loading";
 import { UserModel } from "../apis/models/user";
 import logo from "../assets/images/CAQAP 01.png";
@@ -86,13 +86,13 @@ const Login = () => {
               required
             />
           </PositionedContainer>
-          <RippleButton
+          <CustomButton
             ripleColor="bg-white/70 dark:bg-black/70"
             type="submit"
             className="bg-primary dark:text-Dark dark:bg-primaryDark p-2.5 rounded-lg text-white text-sm"
           >
             Login
-          </RippleButton>
+          </CustomButton>
         </form>
       </div>
     </section>

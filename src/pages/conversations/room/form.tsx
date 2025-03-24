@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { RippleButton } from "../../../components/button/RippleButton";
+import { CustomButton } from "../../../components/button/CustomButton";
 import LargeSelect from "../../../components/form/LargeSelectInput";
 import { GLOBAL_ICONS } from "../../../utils/icons";
 import InputEmoji from "react-input-emoji";
@@ -23,12 +23,12 @@ const Form = () => {
         </span>
       </div>
       <div className="flex items-center gap-2">
-        <RippleButton
+        <CustomButton
           ripleColor="bg-black/30 dark:bg-white/30"
           className="p-3 text-xl text-Dark dark:text-neutral hover:bg-neutral dark:bg-neutralDark rounded-lg dark:hover:bg-neutralHoverDark"
         >
           {GLOBAL_ICONS.imagePlus}
-        </RippleButton>
+        </CustomButton>
         <LargeSelect
           top={-140}
           options={[
@@ -37,21 +37,21 @@ const Form = () => {
           ]}
           onChange={() => {}}
           parent={
-            <RippleButton
+            <CustomButton
               ripleColor="bg-black/30 dark:bg-white/30"
               className="p-3 text-xl text-Dark dark:text-neutral hover:bg-neutral dark:bg-neutralDark rounded-lg dark:hover:bg-neutralHoverDark"
             >
               {GLOBAL_ICONS.quickReply}
-            </RippleButton>
+            </CustomButton>
           }
         />
-        <RippleButton
+        <CustomButton
           ripleColor="bg-black/30 dark:bg-white/30"
           type="submit"
           className="text-primary dark:text-primaryDark bg-transparent shadow-none rounded-lg text-[22px] p-3 hover:bg-neutral dark:hover:bg-neutralDark hover:shadow-none"
         >
           {GLOBAL_ICONS.send}
-        </RippleButton>
+        </CustomButton>
       </div>
       <InputEmoji
         value={text}

@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { FaTimes } from "react-icons/fa";
 import { ModalParams } from "./use-modal";
 import { createPortal } from "react-dom";
 
-export default function ModalConfirm<T>({
+export default function Modal<T>({
   children,
   title,
   control,
@@ -48,7 +47,7 @@ export default function ModalConfirm<T>({
             className="shadow-lg cursor-default rounded-md z-50 shadow-3 fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2"
           >
             <div className="bg-white dark:bg-neutralDark rounded-lg shadow-lg py-8 px-10">
-              <h2 className="mb-5 text-base text-center font-semibold dark:text-neutral">
+              <h2 className="mb-5 text-lg text-center font-semibold dark:text-neutral">
                 {title}
               </h2>
               {children}

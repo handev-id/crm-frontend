@@ -1,10 +1,10 @@
 import { GiPadlock } from "react-icons/gi";
 import {
+  MdCastConnected,
   MdDateRange,
   MdDeleteOutline,
   MdInsertEmoticon,
   MdLocationPin,
-  MdNightlightRound,
   MdOutlineEmail,
   MdOutlineNightlight,
   MdOutlineWbSunny,
@@ -14,9 +14,10 @@ import {
   FaBirthdayCake,
   FaBuilding,
   FaCalendarDay,
-  FaDownload,
+  FaCopy,
   FaFacebook,
   FaGlobe,
+  FaInstagram,
   FaLinkedinIn,
   FaPhoneAlt,
   FaRegCalendar,
@@ -24,9 +25,12 @@ import {
   FaRegEye,
   FaRegFlag,
   FaRegUser,
+  FaRobot,
   FaRocketchat,
+  FaTiktok,
   FaUser,
   FaUserFriends,
+  FaWhatsapp,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaRegEyeSlash } from "react-icons/fa";
@@ -36,6 +40,7 @@ import {
   IoCheckmarkCircleOutline,
   IoCheckmarkDone,
   IoCloseCircleOutline,
+  IoPricetags,
   IoSearchOutline,
   IoSettingsOutline,
   IoSettingsSharp,
@@ -49,15 +54,16 @@ import {
 import { VscSettings } from "react-icons/vsc";
 import {
   IoIosArrowBack,
+  IoMdArrowBack,
   IoMdCheckmark,
   IoMdClose,
+  IoMdNotifications,
   IoMdSend,
 } from "react-icons/io";
 import {
   LuImagePlus,
   LuPanelLeftOpen,
   LuPanelRightOpen,
-  LuReply,
 } from "react-icons/lu";
 import { GoPencil, GoPlus, GoReply } from "react-icons/go";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
@@ -97,6 +103,9 @@ export const GLOBAL_ICONS = {
   location: <MdLocationPin />,
   postalCode: <MdSignpost />,
   phone: <FaPhoneAlt />,
+  whatsapp: <FaWhatsapp />,
+  instagram: <FaInstagram />,
+  tiktok: <FaTiktok />,
   facebook: <FaFacebook />,
   twitter: <FaXTwitter />,
   linkedIn: <FaLinkedinIn />,
@@ -104,10 +113,19 @@ export const GLOBAL_ICONS = {
   timezone: <FaRegClock />,
   pencil: <GoPencil />,
   user: <FaRegUser />,
+  userSolid: <FaUser />,
   birth: <FaBirthdayCake />,
   plus: <GoPlus />,
   downloadContact: <FiDownload />,
   date: <MdDateRange />,
+  setting: <IoSettingsSharp />,
+  connection: <MdCastConnected />,
+  notif: <IoMdNotifications />,
+  bot: <FaRobot />,
+  price: <IoPricetags />,
+  arrow: <IoIosArrowBack />,
+  arrowBack: <IoMdArrowBack />,
+  copy: <FaCopy />
 };
 
 export const NavigationMenu = [

@@ -1,15 +1,17 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { useEffect } from "react";
-import Login from "./pages/login";
-import Layout from "./pages/layout";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 import { RootState } from "./utils/store";
 import { setIsDarkMode } from "./utils/store/slices/theme";
+import Login from "./pages/login";
+import Layout from "./pages/layout";
+import LayoutSettings from "./pages/settings";
 import moment from "moment";
 import Conversations from "./pages/conversations";
 import Register from "./pages/register";
 import Contacts from "./pages/contacts";
-import Settings from "./pages/settings";
+import Account from "./pages/settings/account";
+import Channels from "./pages/settings/channels";
 
 const App = () => {
   moment.locale("id");
@@ -47,7 +49,17 @@ const App = () => {
             },
             {
               path: "settings",
-              element: <Settings />,
+              element: <LayoutSettings />,
+              children: [
+                {
+                  path: "account",
+                  element: <Account />,
+                },
+                {
+                  path: "channels",
+                  element: <Channels />,
+                },
+              ],
             },
           ],
         },

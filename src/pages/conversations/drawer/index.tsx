@@ -162,7 +162,7 @@ const Drawer = () => {
 
   return (
     <div
-      className={`h-screen w-full overflow-hidden bg-white dark:bg-Dark border border-Dark/10 dark:border-neutral/10`}
+      className={`h-screen w-full overflow-hidden bg-white dark:bg-Dark border border-base`}
     >
       <div className="sm:ml-[63px] text-Dark dark:text-neutralHover">
         <Header setValue={setValue} watch={watch} />

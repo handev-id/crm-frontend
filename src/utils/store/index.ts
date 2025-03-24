@@ -2,14 +2,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import drawerReducer from "./slices/drawer";
 import themeReducer from "./slices/theme";
 import profileReducer from "./slices/my-profile";
-import socketReducer from "./slices/socket";
 
 const store = configureStore({
   reducer: {
     drawer: drawerReducer,
     theme: themeReducer,
     profile: profileReducer,
-    socket: socketReducer,
   },
 });
 

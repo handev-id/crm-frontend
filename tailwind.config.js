@@ -12,6 +12,7 @@ export default {
         Light: "#fff",
         Dark: "#121212",
         primary: "#448aff",
+        danger: "#ef4444",
         primaryTransparent: "#ecf3ff",
         primaryDark: "#ffd740",
         primaryDarkTransparent: "#1e1c14",
