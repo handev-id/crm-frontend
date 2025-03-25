@@ -17,6 +17,7 @@ import AuthEndpoint from "../apis/endpoints/auth";
 import { useEffect } from "react";
 import { axiosInstance } from "../apis/axios";
 import Button from "../components/button/Button";
+import { setProfile } from "../utils/store/slices/my-profile";
 
 const Layout = () => {
   const navigate = useNavigate();
@@ -41,8 +42,9 @@ const Layout = () => {
           },
         },
         {
-          onSuccess: () => {
+          onSuccess: (result) => {
             axiosInstance.defaults.headers.common.Authorization = `Bearer ${cookies.token}`;
+            dispatch(setProfile(result));
           },
           onError: () => {
             removeCookie("token");

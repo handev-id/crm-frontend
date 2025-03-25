@@ -2,15 +2,15 @@ import { createSlice } from "@reduxjs/toolkit";
 import { UserModel } from "../../../apis/models/user";
 
 const initalState: { profile: UserModel | null } = {
-  profile: null
+  profile: null,
 };
 
 const profileSlice = createSlice({
   name: "profile",
   initialState: initalState,
   reducers: {
-    setProfile: ({profile}, action) => {
-      profile = action.payload;
+    setProfile: (state, action) => {
+      state.profile = action.payload;
     },
   },
 });

@@ -7,7 +7,7 @@ import SubHeader from "../../components/SubHeader";
 const Layout = () => {
   const location = useLocation();
   return (
-    <div className="sm:pl-[60px] overflow-hidden h-screen">
+    <div className="lg:pl-[60px] overflow-hidden h-screen">
       <div className="border-b grid grid-cols-2 justify-between items-center h-20 bg-white sticky top-0 left-0 px-4 lg:px-8 dark:bg-Dark border-base w-full">
         <div className="h1">Pengaturan</div>
         <div className=" flex justify-end">
