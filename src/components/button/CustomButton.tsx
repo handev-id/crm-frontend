@@ -37,6 +37,7 @@ export function CustomButton({
   return (
     <button
       {...props}
+      type="button"
       ref={buttonRef}
       onClick={(e) => {
         handleClick(e);

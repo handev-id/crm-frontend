@@ -169,6 +169,7 @@ const Drawer = () => {
         <div className="scrollbar h-screen pb-20 overflow-y-auto">
           {(conversatios || []).map((conv, index) => (
             <Controller
+              key={index}
               control={control}
               name="conversationIds"
               render={({ field: { value, onChange } }) => (

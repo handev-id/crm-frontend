@@ -10,7 +10,7 @@ import { RootState } from "../../../utils/store";
 import { WaEvent } from "../../../types/wa-events";
 
 const Whatsapp = () => {
-  const whatsappApi = new WhatsappEndpoint();
+  const whatsappApi = WhatsappEndpoint();
 
   const [event, setEvent] = useState<WaEvent["connection"]>({
     id: "",
@@ -35,11 +35,14 @@ const Whatsapp = () => {
 
   useEffect(() => {
     if (profile?.id) {
-      whatsappApi.getStatus.mutate(profile.id, {
-        onSuccess: (data) => {
-          setEvent(data);
-        },
-      });
+      whatsappApi.getStatus.mutate(
+        { id: profile.id },
+        {
+          onSuccess: (data) => {
+            setEvent(data);
+          },
+        }
+      );
     }
   }, [profile]);
 
@@ -61,7 +64,7 @@ const Whatsapp = () => {
           <Button
             coloring="danger"
             onClick={() => {
-              whatsappApi.restart.mutate(profile!.id);
+              whatsappApi.restart.mutate({ id: profile!.id });
             }}
           >
             Restart

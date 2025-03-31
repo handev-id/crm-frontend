@@ -11,7 +11,7 @@ const Room = () => {
       <Header />
       <div className="h-full pt-2 px-2 pb-4 scrollbar w-full overflow-y-auto">
         {Array.from({ length: 2 }, (_, index) => (
-          <Message
+          <Message key={index}
             text="Hello"
             theme={theme}
             position={index === 0 ? "left" : "right"}

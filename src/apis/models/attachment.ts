@@ -3,4 +3,4 @@ export type AttachmentModel = {
   size: number;
   type: string;
   url?: string;
-};
+}

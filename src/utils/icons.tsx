@@ -5,6 +5,7 @@ import {
   MdDeleteOutline,
   MdInsertEmoticon,
   MdLocationPin,
+  MdOutlineBusinessCenter,
   MdOutlineEmail,
   MdOutlineNightlight,
   MdOutlineWbSunny,
@@ -125,7 +126,8 @@ export const GLOBAL_ICONS = {
   price: <IoPricetags />,
   arrow: <IoIosArrowBack />,
   arrowBack: <IoMdArrowBack />,
-  copy: <FaCopy />
+  copy: <FaCopy />,
+  businessOutline: <MdOutlineBusinessCenter />
 };
 
 export const NavigationMenu = [

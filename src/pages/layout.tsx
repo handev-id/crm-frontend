@@ -7,17 +7,17 @@ import { CostumTooltip } from "../components/tooltip/CustomTooltip";
 import { CustomButton } from "../components/button/CustomButton";
 import { useModal } from "../components/modal";
 import { setTheme } from "../utils/store/slices/theme";
+import { useCookies } from "react-cookie";
+import { useEffect } from "react";
+import { axiosInstance } from "../apis/axios";
+import { setProfile } from "../utils/store/slices/my-profile";
 import Avatar from "../components/Avatar";
 import Modal from "../components/modal/modal";
 import moment from "moment";
 import OnlineStatus from "../components/OnlineStatus";
 import logo from "../assets/images/apple-touch-icon.png";
-import { useCookies } from "react-cookie";
 import AuthEndpoint from "../apis/endpoints/auth";
-import { useEffect } from "react";
-import { axiosInstance } from "../apis/axios";
 import Button from "../components/button/Button";
-import { setProfile } from "../utils/store/slices/my-profile";
 
 const Layout = () => {
   const navigate = useNavigate();
@@ -28,14 +28,15 @@ const Layout = () => {
   const { isOpenDetail } = useSelector((state: RootState) => state.drawer);
   const { isDarkMode, theme } = useSelector((state: RootState) => state.theme);
 
+  const authtApi = AuthEndpoint();
+
   const onChangeTheme = () => {
     dispatch(setTheme(theme === "dark" ? "light" : "dark"));
   };
-  const checkTokenApi = AuthEndpoint.checkToken();
 
   useEffect(() => {
     if (cookies.token) {
-      checkTokenApi.mutate(
+      authtApi.checkToken.mutate(
         {
           headers: {
             Authorization: `Bearer ${cookies.token}`,
@@ -123,11 +124,7 @@ const Layout = () => {
                 onClick={() => modalConfirm.control.open()}
                 className="active:bg-neutralHover dark:active:bg-neutralHoverDark w-full p-3"
               >
-                <Avatar
-                  src={
-                    "https://ui-avatars.com/api/?name=6285777104634+at+swhatsappnet&background=04b3e8&color=fff&size=512"
-                  }
-                />
+                <Avatar />
               </div>
               <span className="text-neutralDark dark:text-neutralHover text-sm mx-3 mb-2">
                 v1.3.82
@@ -222,8 +219,22 @@ const Layout = () => {
         title="Apakah anda yakin ingin keluar ?"
       >
         <div className="flex justify-center gap-4">
-          <Button coloring="danger">Batal</Button>
-          <Button coloring="primary">Keluar</Button>
+          <Button onClick={() => modalConfirm.control.close()}>Batal</Button>
+          <Button coloring="danger"
+            loading={authtApi.logout.isPending}
+            onClick={() => {
+              authtApi.logout.mutate(
+                {},
+                {
+                  onSuccess: () => {
+                    navigate("/login", { replace: true });
+                  },
+                }
+              );
+            }}
+          >
+            Keluar
+          </Button>
         </div>
       </Modal>
     </>

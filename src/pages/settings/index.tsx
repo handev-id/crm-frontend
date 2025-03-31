@@ -1,14 +1,23 @@
-import { settingMenus, settingMenusMap } from "../../utils/common";
+import { settingMenusMap } from "../../utils/common";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import SearchInput from "../../components/form/SearchInput";
 import { GLOBAL_ICONS } from "../../utils/icons";
 import SubHeader from "../../components/SubHeader";
+import { useEffect } from "react";
 
 const Layout = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (window.innerWidth > 1024 && location.pathname === "/settings") {
+      navigate("/settings/account");
+    }
+  }, [location.pathname]);
+
   return (
     <div className="lg:pl-[60px] overflow-hidden h-screen">
-      <div className="border-b grid grid-cols-2 justify-between items-center h-20 bg-white sticky top-0 left-0 px-4 lg:px-8 dark:bg-Dark border-base w-full">
+      <div className="border-b sm:pl-[90px] lg:pl-8 grid grid-cols-2 justify-between items-center h-20 bg-white sticky top-0 left-0 px-4 lg:px-8 dark:bg-Dark border-base w-full">
         <div className="h1">Pengaturan</div>
         <div className=" flex justify-end">
           <SearchInput
@@ -28,7 +37,7 @@ const Layout = () => {
             <Link
               key={path}
               to={path}
-              className={`py-5 flex gap-3 cursor-pointer sm:pl-[40px] px-4 lg:px-8 border-b border-neutral dark:border-neutralDark text-neutralDark dark:text-neutral duration-300 ${
+              className={`py-5 flex gap-3 cursor-pointer pl- sm:pl-[90px] lg:pl-8 px-4 lg:px-8 border-b border-neutral dark:border-neutralDark text-neutralDark dark:text-neutral duration-300 ${
                 location.pathname == path
                   ? "text-primary dark:text-primaryDark bg-neutral dark:bg-neutralDark"
                   : "text-neutralDark hover:bg-neutral dark:hover:bg-neutralDark"

@@ -72,9 +72,9 @@ const Button = ({
         props.onClick?.(e);
       }}
       disabled={Boolean(props.disabled || loading)}
-      className={`myButton rounded-lg font-semibold disabled:opacity-50 ${sizingStyles[sizing]} ${coloringStyles[coloring]}`}
+      className={`myButton rounded-lg font-semibold disabled:cursor-not-allowed disabled:opacity-50 ${sizingStyles[sizing]} ${coloringStyles[coloring]} ${props?.className || ''}`}
     >
-      {children}
+      {loading ? <div className="small-spinner mx-auto"></div> : children}
       <span ref={rippleRef} className={`rippleEffect ${ripleStyles[ripleColor]}`}></span>
     </button>
   );

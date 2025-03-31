@@ -103,8 +103,8 @@ const Header = ({ watch, setValue }: Props) => {
         </div>
       </div>
       <TabGroup>
-        {filteringConversation.map((menu) => (
-          <Tab onClick={() => setCurrentTab(menu.value)} isActive={menu.value === currentTab}>{menu.title}</Tab>
+        {filteringConversation.map((menu, i) => (
+          <Tab key={i} onClick={() => setCurrentTab(menu.value)} isActive={menu.value === currentTab}>{menu.title}</Tab>
         ))}
       </TabGroup>
     </>

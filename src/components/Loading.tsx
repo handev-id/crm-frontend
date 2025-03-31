@@ -1,4 +1,5 @@
-export const Loading = () => {
+export const Loading = ({show}: {show: boolean}) => {
+  if(!show) return null
   return (
     <div className="absolute z-50 items-center flex justify-center w-full h-screen bg-black/50 left-0 top-0">
       <div className="p-10 rounded-lg px-20 bg-white dark:bg-neutralDark flex flex-col items-center">

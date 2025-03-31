@@ -33,12 +33,10 @@ const Message: React.FC<ChatBubbleProps> = ({
                     : "dark-from-me relative"
                 }`
           }
+          dangerouslySetInnerHTML={{
+            __html: text,
+          }}
         >
-          <div
-            dangerouslySetInnerHTML={{
-              __html: text,
-            }}
-          />
         </p>
       </>
     </div>

@@ -3,7 +3,7 @@ import { axiosInstance } from "../axios";
 import { AxiosRequestConfig } from "axios";
 import { ApiPayload } from "../../types/api-payload";
 
-export default function useLazyGetApi<T, V = {}>({
+export default function useDeleteApi<T, V = {}>({
   endpoint,
   key,
 }: ApiPayload<T, V>) {
@@ -15,7 +15,7 @@ export default function useLazyGetApi<T, V = {}>({
       const config = { ...variables };
       delete config.params;
 
-      const { data } = await axiosInstance.get<T>(url, config);
+      const { data } = await axiosInstance.delete<T>(url, config);
       return data;
     },
   });

@@ -1,3 +1,5 @@
+import { RoleKey } from "../../types/roles";
+import { AttachmentModel } from "./attachment";
 import { BaseModel } from "./base";
 
 export interface UserModel extends BaseModel {
@@ -6,7 +8,7 @@ export interface UserModel extends BaseModel {
   phone: string;
   gender: "male" | "female";
   password: string;
-  avatar: string;
+  avatar: File | AttachmentModel | null;
   token?: string;
-  role: string;
+  roles: RoleKey[];
 }

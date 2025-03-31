@@ -3,10 +3,10 @@ import { axiosInstance } from "../axios";
 import { ApiPayload } from "../../types/api-payload";
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 
-export default function usePostApi<T, V extends Record<string, any> = {}>({
+export default function usePutApi<T, V extends Record<string, any> = {}>({
   endpoint,
   key,
-  isFormData,
+  isFormData = false,
   ...options
 }: ApiPayload<T, V> &
   Omit<UseMutationOptions<T, AxiosError, V>, "mutationKey" | "mutationFn">) {
@@ -41,6 +41,7 @@ export default function usePostApi<T, V extends Record<string, any> = {}>({
 
               });
             } else if (typeof value === "object") {
+              console.log(value)
               Object.entries(value).forEach(([subKey, subValue]) => {
 
                 formData.append(`${key}[${subKey}]`, String(subValue));
@@ -59,7 +60,7 @@ export default function usePostApi<T, V extends Record<string, any> = {}>({
         };
       }
 
-      const response = await axiosInstance.post<T>(url, requestData, config);
+      const response = await axiosInstance.put<T>(url, requestData, config);
       return response.data;
     },
     ...options,

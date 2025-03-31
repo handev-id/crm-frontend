@@ -50,9 +50,6 @@ const ConversationList = ({ conversation, watch, onChange, value }: Props) => {
         <div>
           <div className="flex gap-2 items-center">
             <Avatar
-              src={
-                "https://ui-avatars.com/api/?name=6285777104634+at+swhatsappnet&background=04b3e8&color=fff&size=512"
-              }
             />
             <div
               className={`leading-5 ${

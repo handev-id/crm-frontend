@@ -1,101 +1,103 @@
 import { useState } from "react";
 import { useCookies } from "react-cookie";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import PositionedContainer from "../components/PositionedContainer";
 import { GLOBAL_ICONS } from "../utils/icons";
-import { CustomButton } from "../components/button/CustomButton";
 import { Loading } from "../components/Loading";
 import { UserModel } from "../apis/models/user";
 import logo from "../assets/images/CAQAP 01.png";
 import Input from "../components/form/Input";
 import AuthEndpoint from "../apis/endpoints/auth";
+import Error from "../components/Error";
+import Button from "../components/button/Button";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [_, setCookie] = useCookies();
-  const [isPassword, setIsPassword] = useState(true);
-  const { handleSubmit, register } = useForm<Partial<UserModel>>();
+  const navigate = useNavigate()
 
-  const loginApi = AuthEndpoint.login();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+    reset
+  } = useForm<Partial<UserModel>>();
+
+  const authApi = AuthEndpoint();
 
   const onLogin = ({ email, password }: Partial<UserModel>) => {
-    loginApi.mutate(
+    authApi.login.mutate(
       { email, password },
       {
         onSuccess: (result) => {
           if (result) {
+            reset()
             setCookie("token", result.token);
-            window.location.href = "/conversations";
+            navigate('/conversations')
           }
         },
-      }
+      }, 
     );
   };
 
   return (
-    <section className="flex justify-center h-screen items-center">
-      {loginApi.isPending && <Loading />}
-      <div className="w-[450px]">
-        <div className="logo dark:hidden">
-          <img
-            src={logo}
-            className="w-[80%] mx-auto sm:w-full"
-            alt="Logo Caqap"
-          />
+    <div className="bg-neutral dark:bg-Dark overflow-y-auto h-screen px-4 py-16">
+      <Loading show={authApi.login.isPending} />
+      <div className="w-full lg:w-[550px] m-auto p-6 rounded-lg shadow-lg bg-white dark:bg-neutralDark">
+        <div className="logo dark:hidden mb-8 w-1/2 lg:w-72  mx-auto">
+          <img src={logo} alt="Logo Caqap" />
         </div>
-        <div className="hidden dark:block">
-          <img
-            src={logo}
-            className="w-[80%] mx-auto sm:w-full"
-            alt="Logo Caqap"
-          />
+        <div className="hidden dark:block mb-8 w-1/2 lg:w-72 mx-auto">
+          <img src={logo} alt="Logo Caqap" />
         </div>
-        {loginApi.error && (
-          <p className="text-red-500 text-sm text-center">Unauthorized</p>
-        )}
+
+        <Error error={authApi.login.error} />
         <form
           onSubmit={handleSubmit(onLogin)}
-          className="flex w-[75%] mt-10 mx-auto flex-col gap-3"
+          className="flex mx-auto flex-col gap-4"
         >
-          <Input
-            leftItem={GLOBAL_ICONS.email}
-            placeholder="Email"
-            {...register("email")}
+          <Controller
+            control={control}
+            name="email"
+            rules={{ required: "Wajib Diisi" }}
+            render={({ field }) => (
+              <Input
+                label="Email"
+                leftItem={GLOBAL_ICONS.email}
+                placeholder="Masukkan Email"
+                sizing="sm"
+                {...field}
+                message={errors.email?.message}
+              />
+            )}
           />
-          <PositionedContainer
-            items={GLOBAL_ICONS.gembok}
-            className="text-2xl dark:text-neutral text-Dark/70"
-            positioning="top-4 left-3"
-          >
-            <div
-              onClick={() => setIsPassword(!isPassword)}
-              className="rounded-full cursor-pointer hover:bg-neutralHover"
-            >
-              <PositionedContainer
-                items={isPassword ? GLOBAL_ICONS.eye : GLOBAL_ICONS.eyeSlash}
-                className="text-2xl dark:text-neutral text-Dark/70"
-                positioning="top-4 right-3"
-              >
-                <div></div>
-              </PositionedContainer>
-            </div>
-            <input
-              type={isPassword ? "password" : "text"}
-              className="bg-neutral dark:text-white text-Dark dark:bg-neutralDark pl-12 pr-3 py-3.5 w-full rounded-lg placeholder:opacity-100 outline-none hover:bg-neutralHover/80 dark:hover:bg-neutralHoverDark placeholder:text-gray-600"
-              placeholder="Password"
-              {...register("password")}
-              required
-            />
-          </PositionedContainer>
-          <CustomButton
-            ripleColor="bg-white/70 dark:bg-black/70"
-            type="submit"
-            className="bg-primary dark:text-Dark dark:bg-primaryDark p-2.5 rounded-lg text-white text-sm"
-          >
+
+          <Controller
+            control={control}
+            name="password"
+            rules={{ required: "Wajib Diisi" }}
+            render={({ field }) => (
+              <Input
+                type="password"
+                placeholder="Masukkan Password"
+                leftItem={GLOBAL_ICONS.gembok}
+                sizing="sm"
+                label="Password"
+                message={errors.password?.message}
+                {...field}
+              />
+            )}
+          />
+
+          <Button loading={authApi.login.isPending} type="submit" sizing="fullBase" className="my-4">
             Login
-          </CustomButton>
+          </Button>
+          <span>
+            Belum Punya Akun? <Link className="text-blue-500" to={"/register"}>Daftar Disini</Link>
+          </span>
         </form>
       </div>
-    </section>
+    </div>
   );
 };
 
