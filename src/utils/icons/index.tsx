@@ -1,5 +1,6 @@
 import { GiPadlock } from "react-icons/gi";
 import {
+  MdAddBusiness,
   MdCastConnected,
   MdDateRange,
   MdDeleteOutline,
@@ -127,7 +128,8 @@ export const GLOBAL_ICONS = {
   arrow: <IoIosArrowBack />,
   arrowBack: <IoMdArrowBack />,
   copy: <FaCopy />,
-  businessOutline: <MdOutlineBusinessCenter />
+  businessOutline: <MdOutlineBusinessCenter />,
+  businessFill: <MdAddBusiness />
 };
 
 export const NavigationMenu = [

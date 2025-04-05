@@ -1,7 +1,6 @@
 import { AxiosError } from "axios";
 import { ValidationErrors } from "../types/api-errors";
 import { parseValidationErrors } from "../utils/parseValidationErrors";
-import { useEffect, useRef } from "react";
 
 const Error = ({
   error,
@@ -10,25 +9,6 @@ const Error = ({
   error: AxiosError | null;
   customMsg?: string;
 }) => {
-  const errorRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (error) {
-      setTimeout(() => {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-
-        // Solusi alternatif focus ke element error
-        errorRef.current?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }, 100); // Memberi waktu untuk render
-    }
-  }, [error]);
-
   if (!error) return null;
 
   if (error.response?.status === 422) {
@@ -54,7 +34,7 @@ const Error = ({
     );
   }
 
-  if (error.status === 400) {
+  if (error.status === 401) {
     return (
       <p className="text-red-500 text-sm text-center">
         Email Atau Password Salah - CODE:{error.response?.status || "Unknown"}

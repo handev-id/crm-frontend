@@ -7,9 +7,10 @@ import Input from "../components/form/Input";
 import AuthEndpoint from "../apis/endpoints/auth";
 import logo from "../assets/images/CAQAP 01.png";
 import Button from "../components/button/Button";
-import { TenantModel } from "../apis/models/ternant";
+import { TenantModel } from "../apis/models/tenant";
 import Select, { OptionType } from "../components/form/SelectInput";
 import Error from "../components/Error";
+import { useEffect, useRef } from "react";
 
 const Register = () => {
   const {
@@ -18,8 +19,9 @@ const Register = () => {
     formState: { errors },
     reset,
   } = useForm<TenantModel & UserModel & { passwordConfirmation: string }>();
+  const bodyRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  
+
   const authApi = AuthEndpoint();
 
   const onRegister = (data: TenantModel & UserModel) => {
@@ -34,8 +36,17 @@ const Register = () => {
     });
   };
 
+  useEffect(() => {
+    if (authApi.register.error) {
+      bodyRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [authApi.register.error]);
+
   return (
-    <div className="bg-neutral dark:bg-Dark overflow-y-auto h-screen px-4 py-16">
+    <div
+      ref={bodyRef}
+      className="bg-neutral dark:bg-Dark overflow-y-auto h-screen px-4 py-16"
+    >
       <Loading show={authApi.register.isPending} />
       <div className="w-full lg:w-[550px] m-auto p-6 rounded-lg shadow-lg bg-white dark:bg-neutralDark">
         <div className="logo dark:hidden mb-8 w-1/2 lg:w-72  mx-auto">

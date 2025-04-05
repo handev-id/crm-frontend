@@ -1,4 +1,4 @@
 export type ThemeType = {
   isDarkMode: boolean;
-  theme: "light" | "dark";
+  theme: "light" | "dark" | null;
 };

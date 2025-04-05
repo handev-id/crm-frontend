@@ -21,6 +21,7 @@ export type ModalParams<T> = {
   title: string;
   control: ModalControl<T>;
   onClose?: () => void;
+  onChange?: () => void;
 };
 
 export const useModal = <T>({

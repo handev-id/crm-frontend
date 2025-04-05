@@ -5,38 +5,46 @@ import { GLOBAL_ICONS, NavigationMenu } from "../utils/icons";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { CostumTooltip } from "../components/tooltip/CustomTooltip";
 import { CustomButton } from "../components/button/CustomButton";
-import { useModal } from "../components/modal";
 import { setTheme } from "../utils/store/slices/theme";
 import { useCookies } from "react-cookie";
 import { useEffect } from "react";
 import { axiosInstance } from "../apis/axios";
 import { setProfile } from "../utils/store/slices/my-profile";
+import { confirmAlert } from "../utils/confirmAlert";
 import Avatar from "../components/Avatar";
-import Modal from "../components/modal/modal";
 import moment from "moment";
 import OnlineStatus from "../components/OnlineStatus";
 import logo from "../assets/images/apple-touch-icon.png";
 import AuthEndpoint from "../apis/endpoints/auth";
-import Button from "../components/button/Button";
 
 const Layout = () => {
-  const navigate = useNavigate();
-  const location = useLocation().pathname;
-  const dispatch = useDispatch();
-  const modalConfirm = useModal({});
   const [cookies, , removeCookie] = useCookies(["token"]);
   const { isOpenDetail } = useSelector((state: RootState) => state.drawer);
   const { isDarkMode, theme } = useSelector((state: RootState) => state.theme);
+  const navigate = useNavigate();
+  const location = useLocation().pathname;
+  const dispatch = useDispatch();
 
-  const authtApi = AuthEndpoint();
+  const authApi = AuthEndpoint();
 
   const onChangeTheme = () => {
     dispatch(setTheme(theme === "dark" ? "light" : "dark"));
   };
 
+  const onLogout = () => {
+    confirmAlert({
+      title: "Apakah anda yakin?",
+      message: "Anda akan keluar dari halaman ini",
+      onConfirm: async () => {
+        await authApi.logout.mutateAsync({});
+        navigate("/login", { replace: true });
+      },
+    });
+  };
+
   useEffect(() => {
     if (cookies.token) {
-      authtApi.checkToken.mutate(
+      authApi.checkToken.mutate(
         {
           headers: {
             Authorization: `Bearer ${cookies.token}`,
@@ -53,6 +61,8 @@ const Layout = () => {
           },
         }
       );
+    } else {
+      navigate("/login", { replace: true });
     }
   }, [cookies.token]);
 
@@ -61,6 +71,8 @@ const Layout = () => {
       navigate("/conversations", { replace: true });
     }
   }, [location]);
+
+  if (!authApi.checkToken.data) return null;
 
   return (
     <>
@@ -121,7 +133,7 @@ const Layout = () => {
           <CostumTooltip text={"logout"}>
             <div className="flex flex-col gap-2 cursor-pointer">
               <div
-                onClick={() => modalConfirm.control.open()}
+                onClick={onLogout}
                 className="active:bg-neutralHover dark:active:bg-neutralHoverDark w-full p-3"
               >
                 <Avatar />
@@ -213,30 +225,6 @@ const Layout = () => {
           ))}
         </div>
       </div>
-
-      <Modal
-        control={modalConfirm.control}
-        title="Apakah anda yakin ingin keluar ?"
-      >
-        <div className="flex justify-center gap-4">
-          <Button onClick={() => modalConfirm.control.close()}>Batal</Button>
-          <Button coloring="danger"
-            loading={authtApi.logout.isPending}
-            onClick={() => {
-              authtApi.logout.mutate(
-                {},
-                {
-                  onSuccess: () => {
-                    navigate("/login", { replace: true });
-                  },
-                }
-              );
-            }}
-          >
-            Keluar
-          </Button>
-        </div>
-      </Modal>
     </>
   );
 };

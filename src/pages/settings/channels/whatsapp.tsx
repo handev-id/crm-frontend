@@ -59,9 +59,10 @@ const Whatsapp = () => {
             <div className="spinner"></div>
           )}
         </div>
-        <div className="flex gap-3">
+        <div className="flex gap-3 mb-3">
           <Button onClick={() => modalGuide.control.open()}>Panduan</Button>
           <Button
+            loading={whatsappApi.restart.isPending}
             coloring="danger"
             onClick={() => {
               whatsappApi.restart.mutate({ id: profile!.id });

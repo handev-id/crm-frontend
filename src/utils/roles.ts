@@ -1,7 +1,7 @@
-import { rolesMap, RoleKey } from '../types/roles';
+import { rolesMap, RoleKey } from "../types/roles";
 
 export function getRoleLabel(roleKey: RoleKey): string {
-  return rolesMap[roleKey] || 'Unknown Role';
+  return rolesMap[roleKey] || "Unknown Role";
 }
 
 export function isValidRole(key: string): key is RoleKey {
@@ -13,4 +13,9 @@ export function getAllRoles(): Array<{ key: RoleKey; label: string }> {
     key: key as RoleKey,
     label,
   }));
+}
+
+export function showRoles(roles: RoleKey[]): string {
+  const labels = roles.map((role) => getRoleLabel(role));
+  return labels.join(",");
 }

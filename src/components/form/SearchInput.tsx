@@ -3,7 +3,7 @@ import { GLOBAL_ICONS } from "../../utils/icons";
 import { CustomButton } from "../button/CustomButton";
 
 type Props = {
-  show: (value: boolean) => void;
+  show?: (value: boolean) => void;
   isOpen?: boolean;
   width?: string;
 };
@@ -18,7 +18,7 @@ const SearchInput = ({
   const [searchIcon, setSearchIcon] = useState(false);
 
   useEffect(() => {
-    show(isShow);
+   show && show(isShow);
   }, [isShow]);
 
   if (isOpen) {

@@ -1,6 +1,7 @@
 import { RoleKey } from "../../types/roles";
 import { AttachmentModel } from "./attachment";
 import { BaseModel } from "./base";
+import { TenantModel } from "./tenant";
 
 export interface UserModel extends BaseModel {
   fullName: string;
@@ -11,4 +12,5 @@ export interface UserModel extends BaseModel {
   avatar: File | AttachmentModel | null;
   token?: string;
   roles: RoleKey[];
+  tenant?: Omit<TenantModel, 'users'>
 }

@@ -13,7 +13,7 @@ const Room = () => {
         {Array.from({ length: 2 }, (_, index) => (
           <Message key={index}
             text="Hello"
-            theme={theme}
+            theme={theme!}
             position={index === 0 ? "left" : "right"}
           />
         ))}

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../utils/store";
 import { setIsMobile, setIsOpen } from "../../utils/store/slices/drawer";
 import Resizable from "../../components/Resizble";
-import OfflineMessage from "../../components/OfflineMessage";
 import Detail from "./detail";
 import Room from "./room";
 import Drawer from "./drawer";
@@ -11,9 +10,6 @@ import Drawer from "./drawer";
 export default function Conversations() {
   const dispatch = useDispatch();
   const { isOpen } = useSelector((state: RootState) => state.drawer);
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
-
-  if (!isOnline) return <OfflineMessage />;
 
   useEffect(() => {
     if (window.innerWidth > 1024) {

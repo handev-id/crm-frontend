@@ -1,12 +1,14 @@
 import defaultAvatar from "../assets/images/avatar.avif";
 import { useDropzone } from "react-dropzone";
 
-const sizes = ["sm", "base", "lg"] as const;
+const sizes = ["sm", "base", "lg", "xl", "full"] as const;
 
 const sizingStyles: Record<(typeof sizes)[number], string> = {
   sm: "w-[45px] h-[45px]",
   base: "w-[70px] h-[70px]",
   lg: "w-[90px] h-[90px]",
+  xl: "w-[120px] h-[120px]",
+  full: "w-full, h-full"
 };
 
 export default function Avatar({

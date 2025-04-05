@@ -9,26 +9,27 @@ type ButtonProps = {
   ripleColor?: keyof typeof ripleStyles;
 };
 
-const sizes = ["sm", "base", "fullSm", "fullBase"] as const;
+const sizes = ["sm", "base", "fullSm", "fullBase", "icon"] as const;
 const colors = ["primary", "danger", "neutral"] as const;
-const ripleColors = ["white", "black", "red"] as const;
+const ripleColors = ["white", "neutral", "red"] as const;
 
 const sizingStyles: Record<(typeof sizes)[number], string> = {
-  sm: "h-9 w-20 text-xs",
+  sm: "h-10 w-20 text-xs",
   base: "h-11 w-28 text-sm",
   fullSm: "w-full h-10 text-xs",
-  fullBase: "w-full h-11 text-sm"
+  fullBase: "w-full h-11 text-sm",
+  icon: "p-2.5 text-xl"
 };
 
 const coloringStyles: Record<(typeof colors)[number], string> = {
   primary: "bg-primary text-white",
   danger: "bg-danger text-white",
-  neutral: "bg-neutral text-white",
+  neutral: "bg-neutral dark:bg-neutralDark hover:bg-neutralHover dark:hover:bg-neutralHoverDark",
 };
 
 const ripleStyles: Record<(typeof ripleColors)[number], string> = {
   white: "bg-white/70",
-  black: "bg-black/30",
+  neutral: "bg-black/30 dark:bg-white/30",
   red: "bg-danger/40",
 };
 

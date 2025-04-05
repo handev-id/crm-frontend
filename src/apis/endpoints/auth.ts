@@ -1,7 +1,7 @@
 import useDeleteApi from "../methods/delete";
 import useLazyGetApi from "../methods/lazy-get";
 import usePostApi from "../methods/post";
-import { TenantModel } from "../models/ternant";
+import { TenantModel } from "../models/tenant";
 import { UserModel } from "../models/user";
 
 export default function AuthEndpoint() {
@@ -20,7 +20,7 @@ export default function AuthEndpoint() {
     key: "CHECK_TOKEN",
   });
 
-  const logout = useDeleteApi({
+  const logout = useDeleteApi<{message: string}>({
     endpoint: "/auth/logout",
     key: "LOGOUT",
   });

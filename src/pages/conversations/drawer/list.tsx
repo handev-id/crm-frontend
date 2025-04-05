@@ -4,6 +4,7 @@ import { ConversationModel } from "../../../apis/models/conversation";
 import { UseFormWatch } from "react-hook-form";
 import moment from "moment";
 import { ConversationState } from ".";
+import CheckBox from "../../../components/form/CheckBox";
 
 type Props = {
   conversation: ConversationModel;
@@ -24,33 +25,25 @@ const ConversationList = ({ conversation, watch, onChange, value }: Props) => {
         }`}
       >
         <div>
-          <CustomButton
-            ripleColor="bg-black/30 dark:bg-white/30"
-            className="h-10 w-10 flex justify-center dark:hover:bg-neutralHoverDark items-center rounded-full hover:bg-neutralHover"
-          >
-            <input
-              onChange={(e) => {
-                const newValues = [...value];
-                if (e.target.checked) {
-                  newValues.push(conversation.id);
-                } else {
-                  const index = newValues.indexOf(conversation.id);
-                  if (index > -1) {
-                    newValues.splice(index, 1);
-                  }
+          <CheckBox
+            onChange={(e) => {
+              const newValues = [...value];
+              if ((e.target as HTMLInputElement).checked) {
+                newValues.push(conversation.id);
+              } else {
+                const index = newValues.indexOf(conversation.id);
+                if (index > -1) {
+                  newValues.splice(index, 1);
                 }
-                onChange(newValues);
-              }}
-              checked={(value || []).includes(conversation.id)}
-              className="w-[19px] cursor-pointer h-[19px]"
-              type="checkbox"
-            />
-          </CustomButton>
+              }
+              onChange(newValues);
+            }}
+            checked={(value || []).includes(conversation.id)}
+          />
         </div>
         <div>
           <div className="flex gap-2 items-center">
-            <Avatar
-            />
+            <Avatar />
             <div
               className={`leading-5 ${
                 ((watch("conversationIds") as string[]) || []).length > 0

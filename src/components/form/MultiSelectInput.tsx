@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { CustomButton } from "../button/CustomButton";
-import { FaChevronDown } from "react-icons/fa";
+import { FaChevronDown, FaCheck } from "react-icons/fa";
 
 export type OptionType = {
   label: string;
@@ -10,8 +10,8 @@ export type OptionType = {
 type Props = {
   leftItems?: React.ReactNode[];
   options: OptionType[];
-  onChange: (value: OptionType) => void;
-  value?: string | number | string[] | number[];
+  onChange: (value: OptionType[]) => void;
+  value?: string[];
   containerClassName?: string;
   label?: string;
   isDefault?: boolean;
@@ -19,10 +19,10 @@ type Props = {
   position?: "top" | "bottom";
 };
 
-export default function Select({
+export default function MultiSelect({
   leftItems = [],
   onChange,
-  value = "",
+  value = [],
   options,
   containerClassName,
   label,
@@ -37,8 +37,16 @@ export default function Select({
   const toggleDropdown = () => setIsOpen((prev) => !prev);
 
   const handleOptionClick = (option: OptionType) => {
-    onChange(option);
-    setIsOpen(false);
+    let newValue: string[];
+    if (value.includes(option.value)) {
+      newValue = value.filter((v) => v !== option.value);
+    } else {
+      newValue = [...value, option.value];
+    }
+    const selectedOptions = options.filter((opt) =>
+      newValue.includes(opt.value)
+    );
+    onChange(selectedOptions);
   };
 
   useEffect(() => {
@@ -56,6 +64,12 @@ export default function Select({
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
 
+  const selectedLabels =
+    options
+      .filter((opt) => value.includes(opt.value))
+      .map((opt) => opt.label)
+      .join(", ") || "Pilih Disini";
+
   return (
     <div>
       {label && <div className="mb-2">{label}</div>}
@@ -69,17 +83,8 @@ export default function Select({
               : "bg-transparent hover:bg-neutral dark:hover:bg-neutralDark"
           }`}
         >
-          <div className="flex items-center">
-            {leftItems.length > 0 && (
-              <span className="text-lg">
-                {leftItems[options.findIndex((opt) => opt.value === value)]}
-              </span>
-            )}
-            <span className="ml-2">
-              {value
-                ? options.find((opt) => opt.value === value)?.label
-                : "Pilih Disini"}
-            </span>
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="truncate">{selectedLabels}</span>
             <FaChevronDown className="ml-auto" />
           </div>
         </CustomButton>
@@ -104,22 +109,28 @@ export default function Select({
             aria-orientation="vertical"
             aria-labelledby="options-menu"
           >
-            {options.map((option, idx) => (
-              <button
-                key={option.value}
-                type="button"
-                onClick={() => handleOptionClick(option)}
-                className={`block w-full text-start px-4 py-3 text-sm font-semibold text-neutralDark dark:text-neutral hover:bg-neutral dark:hover:bg-neutralDark ${
-                  value === option.value ? "bg-neutral dark:bg-neutralDark" : ""
-                }`}
-                role="menuitem"
-              >
-                <div className="flex items-center gap-2">
-                  <span className="text-lg">{leftItems[idx]}</span>
-                  <p>{option.label}</p>
-                </div>
-              </button>
-            ))}
+            {options.map((option, idx) => {
+              const isSelected = value.includes(option.value);
+              return (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => handleOptionClick(option)}
+                  className={`block w-full text-start px-4 py-3 text-sm font-semibold text-neutralDark dark:text-neutral hover:bg-neutral dark:hover:bg-neutralDark ${
+                    isSelected ? "bg-neutral dark:bg-neutralDark" : ""
+                  }`}
+                  role="menuitem"
+                >
+                  <div className="flex items-center gap-2">
+                    {leftItems[idx] && (
+                      <span className="text-lg">{leftItems[idx]}</span>
+                    )}
+                    <p className="flex-1">{option.label}</p>
+                    {isSelected && <FaCheck className="text-green-500" />}
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>

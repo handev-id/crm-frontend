@@ -4,7 +4,7 @@ import { CostumTooltip } from "../../../components/tooltip/CustomTooltip";
 import { useState } from "react";
 import { UseFormSetValue, UseFormWatch } from "react-hook-form";
 import { ConversationState } from ".";
-import { channelsMap, filteringConversation } from "../../../utils/common";
+import { channelsMap, filteringConversation } from "../../../utils/constant";
 import Select from "../../../components/form/SelectInput";
 import LargeSelect from "../../../components/form/LargeSelectInput";
 import SearchInput from "../../../components/form/SearchInput";

@@ -1,17 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import SearchInput from "../../components/form/SearchInput";
 import { Skeleton } from "../../components/Skeleton";
 import { UserModel } from "../../apis/models/user";
+import { AttachmentModel } from "../../apis/models/attachment";
 
 const Contacts = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
+
   return (
     <div className="fixed top-0 left-0 sm:pl-[85px] p-3 sm:p-5 overflow-hidden w-full h-screen">
       <div className="flex justify-between px-2 h-16 items-center">
         <h2 className="font-bold text-[20px] text-neutralDark dark:text-neutral">
-          Contacts
+          Daftar Kontak
         </h2>
-        <SearchInput show={(val) => {}} />
+        <SearchInput
+          width={window.innerWidth > 1024 ? "300px" : "100%"}
+          isOpen
+          placeholder="Cari Kontak"
+          show={() => {}}
+        />
       </div>
       <div
         ref={containerRef}
@@ -52,7 +59,7 @@ const Contacts = () => {
               <div className="flex cursor-pointer bg-white gap-3 dark:bg-Dark text-neutralDark dark:text-neutral hover:bg-neutral dark:hover:bg-neutralDark justify-start items-center text-sm w-[1280px] xl:w-full py-2.5 px-4 border-b border-base">
                 <div className="flex items-center gap-4 w-[300px]">
                   <img
-                    src={contact?.avatar}
+                    src={(contact?.avatar as AttachmentModel)?.url}
                     alt="contact profile"
                     className="w-[33px] h-[33px] rounded-full"
                   />
@@ -60,7 +67,7 @@ const Contacts = () => {
                 </div>
                 <div className="w-[180px]">{contact?.phone}</div>
                 <div className="w-[220px]">{contact?.email}</div>
-                <div className="w-[100px]">{contact?.role}</div>
+                <div className="w-[100px]">{contact?.roles.join(",")}</div>
                 <div className="w-[230px]">{contact.createdAt}</div>
                 <div>{contact.createdAt}</div>
               </div>

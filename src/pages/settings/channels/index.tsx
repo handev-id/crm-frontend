@@ -1,13 +1,13 @@
 import Tab, { TabGroup } from "../../../components/Tab";
 import { useState } from "react";
-import { channelsMap } from "../../../utils/common";
+import { channelsMap } from "../../../utils/constant";
 import Whatsapp from "./whatsapp";
 
 const Channels = () => {
   const [currentChannel, setCurrentChannel] = useState("Whatsapp");
 
   return (
-    <div className="space-y-4 lg:pb-28">
+    <div className="space-y-4">
       <div className="cn-box-base">
         <div className="flex justify-between items-center">
           <TabGroup>

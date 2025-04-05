@@ -8,7 +8,7 @@ const OfflineMessage = () => {
         <span className="text-neutral">
           <GoCloudOffline />
         </span>{" "}
-        You're offline
+        Anda Offline
       </h2>
     </div>
   );

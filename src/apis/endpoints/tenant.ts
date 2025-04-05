@@ -1,8 +1,12 @@
-// import usePostApi from "../methods/post";
-// import { TenantModel } from "../models/ternant";
-// import { UserModel } from "../models/user";
+import usePutApi from "../methods/put";
+import { TenantModel } from "../models/tenant";
 
-// export default class TenantEnrpoint {
-//     show;
+export default function TenantEndpoint() {
+  const update = usePutApi<TenantModel, TenantModel>({
+    endpoint: (tenant) => `/tenant/${tenant.id}`,
+    key: "UPDATE_TENANT",
+    isFormData: true
+  });
 
-// }
+  return { update };
+}

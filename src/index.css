@@ -2,18 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body {
+html,
+body {
   height: 100%;
   overflow-y: auto;
 }
-
 
 .border-base {
   @apply border-Dark/10 dark:border-white/10;
 }
 
 .cn-box-base {
-  @apply shadow-lg dark:bg-neutralDark bg-white border border-base p-4 rounded-lg
+  @apply shadow-lg dark:bg-neutralDark bg-white border border-base py-4 px-5 rounded-lg;
 }
 
 .h1 {
@@ -25,67 +25,28 @@ html, body {
 }
 
 .spinner {
-  width: 56px;
-  height: 56px;
-  display: grid;
-  animation: spinner-plncf9 4s infinite;
-}
-
-.spinner::before,
-.spinner::after {
-  content: "";
-  grid-area: 1/1;
-  border: 9px solid;
-  border-radius: 50%;
-  border-color: #448aff #448aff #0000 #0000;
-  mix-blend-mode: darken;
-  animation: spinner-plncf9 1s infinite linear;
-}
-
-.spinner::after {
-  border-color: #0000 #0000 #ffffff #ffffff;
-  animation-direction: reverse;
-}
-
-.custom-loader {
   width: 50px;
   height: 50px;
   border-radius: 50%;
   background: conic-gradient(#0000 10%, #448aff);
   -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
-  animation: s3 1s infinite linear;
+  animation: spinner-zp9dbg 1s infinite linear;
 }
 
 .small-spinner {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: conic-gradient(#0000 10%,#ffffff);
-  -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 3.8px),#000 0);
+  background: conic-gradient(#0000 10%, #ffffff);
+  -webkit-mask: radial-gradient(
+    farthest-side,
+    #0000 calc(100% - 3.8px),
+    #000 0
+  );
   animation: spinner-zp9dbg 1s infinite linear;
 }
 
 @keyframes spinner-zp9dbg {
-  to {
-     transform: rotate(1turn);
-  }
-}
-
-@keyframes s3 {
-  to {
-    transform: rotate(1turn);
-  }
-}
-
-.custom-loader-dark {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: conic-gradient(#0000 10%, #ffd740);
-  -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
-  animation: s3 1s infinite linear;
-}
-@keyframes s3 {
   to {
     transform: rotate(1turn);
   }
@@ -95,18 +56,10 @@ body {
   overflow: hidden;
 }
 
-@keyframes spinner-plncf9 {
-  100% {
-    transform: rotate(1turn);
-  }
-}
-
 .shadow-solid {
   box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2),
-              0px 5px 8px 0px rgba(0, 0, 0, 0.14),
-              0px 1px 14px 0px rgba(0, 0, 0, 0.12);
+    0px 5px 8px 0px rgba(0, 0, 0, 0.14), 0px 1px 14px 0px rgba(0, 0, 0, 0.12);
 }
-
 
 .tooltipText {
   font-size: 12px;
@@ -116,6 +69,12 @@ body {
   text-align: center;
   position: relative;
   overflow: hidden;
+}
+
+.myRipple {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .rippleEffect {
@@ -153,6 +112,7 @@ body {
   scrollbar-width: thin;
   scrollbar-color: #8080804f transparent;
 }
+
 .scrollbar-transparent {
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;
