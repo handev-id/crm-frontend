@@ -24,7 +24,7 @@ export const settingMenusMap: Record<string, SettingMenuItem> = {
   "/settings/account": {
     title: "Akun",
     icon: GLOBAL_ICONS_FA.user,
-    allowed: ["owner", "admin"],
+    allowed: ["owner", "admin", "agent"],
   },
   "/settings/channels": {
     title: "Channel",

@@ -31,7 +31,7 @@ const Layout = () => {
           {Object.entries(settingMenusMap).map(([path, menu]) => (
             <div key={path}>
               {menu.allowed?.some((allow) =>
-                profile?.roles.includes(allow)
+                profile?.roles && profile.roles.includes(allow)
               ) && (
                 <Link
                   to={path}

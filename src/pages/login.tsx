@@ -1,26 +1,24 @@
-import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { Controller, useForm } from "react-hook-form";
-import PositionedContainer from "../components/PositionedContainer";
 import { GLOBAL_ICONS } from "../utils/icons";
 import { Loading } from "../components/Loading";
 import { UserModel } from "../apis/models/user";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/images/CAQAP 01.png";
 import Input from "../components/form/Input";
 import AuthEndpoint from "../apis/endpoints/auth";
 import Error from "../components/Error";
 import Button from "../components/button/Button";
-import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [_, setCookie] = useCookies();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const {
     handleSubmit,
     control,
     formState: { errors },
-    reset
+    reset,
   } = useForm<Partial<UserModel>>();
 
   const authApi = AuthEndpoint();
@@ -31,12 +29,12 @@ const Login = () => {
       {
         onSuccess: (result) => {
           if (result) {
-            reset()
+            reset();
             setCookie("token", result.token);
-            navigate('/conversations')
+            navigate("/conversations");
           }
         },
-      }, 
+      }
     );
   };
 
@@ -51,7 +49,7 @@ const Login = () => {
           <img src={logo} alt="Logo Caqap" />
         </div>
 
-        <Error error={authApi.login.error} />
+        <Error customMsg="Email Atau Password Salah" error={authApi.login.error} />
         <form
           onSubmit={handleSubmit(onLogin)}
           className="flex mx-auto flex-col gap-4"
@@ -89,11 +87,19 @@ const Login = () => {
             )}
           />
 
-          <Button loading={authApi.login.isPending} type="submit" sizing="fullBase" className="my-4">
+          <Button
+            loading={authApi.login.isPending}
+            type="submit"
+            sizing="fullBase"
+            className="my-4"
+          >
             Login
           </Button>
           <span>
-            Belum Punya Akun? <Link className="text-blue-500" to={"/register"}>Daftar Disini</Link>
+            Belum Punya Akun?{" "}
+            <Link className="text-blue-500" to={"/register"}>
+              Daftar Disini
+            </Link>
           </span>
         </form>
       </div>

@@ -34,14 +34,6 @@ const Error = ({
     );
   }
 
-  if (error.status === 401) {
-    return (
-      <p className="text-red-500 text-sm text-center">
-        Email Atau Password Salah - CODE:{error.response?.status || "Unknown"}
-      </p>
-    );
-  }
-
   return (
     <p className="text-red-500 text-sm text-center">
       Terjadi Kesalahan - CODE:{error.response?.status || "Unknown"}
