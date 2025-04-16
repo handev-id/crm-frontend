@@ -1,14 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../utils/store";
 import { setIsMobile, setIsOpen } from "../../utils/store/slices/drawer";
+import { useLocation, useParams } from "react-router-dom";
 import Resizable from "../../components/Resizble";
 import Detail from "./detail";
 import Room from "./room";
 import Drawer from "./drawer";
+import NoSelectedConversation from "../../components/NoSelectedConversation";
 
-export default function Conversations() {
+export default function ConversationsLayout() {
   const dispatch = useDispatch();
+  const pathName = useLocation().pathname;
   const { isOpen } = useSelector((state: RootState) => state.drawer);
 
   useEffect(() => {
@@ -22,12 +25,17 @@ export default function Conversations() {
 
   return (
     <>
-      {window.innerWidth >= 1024 ? (
+      {window.innerWidth >= 768 ? (
         <div>
           <Resizable
             leftContent={<Drawer />}
-            middleContent={<Room />}
-            rightContent={<Detail />}
+            rightContent={
+              pathName === "/conversation" ? (
+                <Room />
+              ) : (
+                <NoSelectedConversation />
+              )
+            }
           />
         </div>
       ) : (

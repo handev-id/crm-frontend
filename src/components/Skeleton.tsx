@@ -4,14 +4,17 @@ import { useSelector } from "react-redux";
 import { RootState } from "../utils/store";
 
 type Props = {
-  type: "user-list" | "list" | "avatar";
+  type: "user-list" | "list" | "avatar" | "messages";
   height?: string;
 };
 
 const SkeletonComponent = ({ type, height = "50px" }: Props) => {
-  const {isDarkMode} = useSelector((state: RootState) => state.theme)
+  const { isDarkMode } = useSelector((state: RootState) => state.theme);
   return (
-    <SkeletonTheme baseColor={isDarkMode ? "#202020" : ""} highlightColor={isDarkMode ? "#444" : ""}>
+    <SkeletonTheme
+      baseColor={isDarkMode ? "#202020" : ""}
+      highlightColor={isDarkMode ? "#444" : ""}
+    >
       {type === "avatar" ? (
         <Skeleton
           circle
@@ -36,6 +39,41 @@ const SkeletonComponent = ({ type, height = "50px" }: Props) => {
               height,
             }}
           />
+        </div>
+      ) : type === "messages" ? (
+        <div className="w-full">
+          <div>
+            <Skeleton
+              style={{
+                width: "250px",
+                height,
+              }}
+              className="dark:bg-gray-600"
+            />
+            <Skeleton
+              style={{
+                width: "80px",
+                height: "20px",
+              }}
+              className="dark:bg-gray-600"
+            />
+          </div>
+          <div className="flex flex-col items-end">
+            <Skeleton
+              style={{
+                width: "250px",
+                height,
+              }}
+              className="dark:bg-gray-600"
+            />
+            <Skeleton
+              style={{
+                width: "80px",
+                height: "20px",
+              }}
+              className="dark:bg-gray-600"
+            />
+          </div>
         </div>
       ) : (
         <Skeleton

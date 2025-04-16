@@ -7,22 +7,22 @@ import { UserModel } from "../models/user";
 export default function AuthEndpoint() {
   const register = usePostApi<TenantModel, TenantModel & UserModel>({
     endpoint: "/auth/register",
-    key: "REGISTER",
+    key: ["REGISTER"],
   });
 
   const login = usePostApi<UserModel, Partial<UserModel>>({
     endpoint: "/auth/login",
-    key: "LOGIN",
+    key: ["LOGIN"],
   });
 
   const checkToken = useLazyGetApi<UserModel>({
     endpoint: "/auth/check",
-    key: "CHECK_TOKEN",
+    key: ["CHECK_TOKEN"],
   });
 
-  const logout = useDeleteApi<{message: string}>({
+  const logout = useDeleteApi<{ message: string }>({
     endpoint: "/auth/logout",
-    key: "LOGOUT",
+    key: ["LOGOUT"],
   });
 
   return {

@@ -2,6 +2,7 @@ import Tab, { TabGroup } from "../../../components/Tab";
 import { useState } from "react";
 import { channelsMap } from "../../../utils/constant";
 import Whatsapp from "./whatsapp";
+import Telegram from "./telegram";
 
 const Channels = () => {
   const [currentChannel, setCurrentChannel] = useState("Whatsapp");
@@ -24,7 +25,11 @@ const Channels = () => {
         </div>
       </div>
       <div className="cn-box-base">
-        <Whatsapp />
+        {currentChannel === "Whatsapp" ? (
+          <Whatsapp />
+        ) : currentChannel === "Telegram" ? (
+          <Telegram />
+        ) : null}
       </div>
     </div>
   );

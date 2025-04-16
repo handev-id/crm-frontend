@@ -16,14 +16,27 @@ import moment from "moment";
 import OnlineStatus from "../components/OnlineStatus";
 import logo from "../assets/images/apple-touch-icon.png";
 import AuthEndpoint from "../apis/endpoints/auth";
+import {
+  NewMessageState,
+  setConversation,
+  setFromCustomer,
+  setMessage,
+} from "../utils/store/slices/new-message";
+import socket from "../apis/socket";
+import { useNotification } from "../utils/hooks/useNotification";
+import { useAudio } from "../utils/hooks/useAudio";
+import sendNotif from "../assets/audio/send.mp3";
 
-const Layout = () => {
-  const [cookies, , removeCookie] = useCookies(["token"]);
-  const { isOpenDetail } = useSelector((state: RootState) => state.drawer);
-  const { isDarkMode, theme } = useSelector((state: RootState) => state.theme);
+const MainLayout = () => {
   const navigate = useNavigate();
   const location = useLocation().pathname;
   const dispatch = useDispatch();
+  const { play } = useAudio(sendNotif);
+  const { notify } = useNotification();
+  const [cookies, , removeCookie] = useCookies(["token"]);
+  const { isOpenDetail } = useSelector((state: RootState) => state.drawer);
+  const { isDarkMode, theme } = useSelector((state: RootState) => state.theme);
+  const { profile } = useSelector((state: RootState) => state.profile);
 
   const authApi = AuthEndpoint();
 
@@ -43,36 +56,55 @@ const Layout = () => {
   };
 
   useEffect(() => {
-    if (cookies.token) {
-      authApi.checkToken.mutate(
-        {
-          headers: {
-            Authorization: `Bearer ${cookies.token}`,
-          },
-        },
-        {
-          onSuccess: (result) => {
-            axiosInstance.defaults.headers.common.Authorization = `Bearer ${cookies.token}`;
-            dispatch(setProfile(result));
-          },
-          onError: () => {
-            removeCookie("token");
-            navigate("/login", { replace: true });
-          },
-        }
-      );
-    } else {
-      navigate("/login", { replace: true });
-    }
-  }, [cookies.token]);
+    if (!socket || !profile?.tenant?.id) return;
+
+    const channel = `new-message:${profile.tenant.id}`;
+    const handler = (data: NewMessageState) => {
+      if (data.from === "customer") {
+        notify("Centra Channel", {
+          body: data.message?.text || "Pesan Baru",
+        });
+      } else {
+        play();
+      }
+
+      dispatch(setFromCustomer(data.from!));
+      dispatch(setMessage(data.message!));
+      dispatch(setConversation(data.conversation!));
+    };
+
+    socket.on(channel, handler);
+
+    return () => {
+      socket.off(channel, handler);
+    };
+  }, [socket, profile?.tenant?.id]);
 
   useEffect(() => {
-    if (location === "/") {
-      navigate("/conversations", { replace: true });
+    if (!cookies.token) {
+      navigate("/login", { replace: true });
+      return;
     }
-  }, [location]);
+    authApi.checkToken.mutate(
+      {
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        },
+      },
+      {
+        onSuccess: (result) => {
+          axiosInstance.defaults.headers.common.Authorization = `Bearer ${cookies.token}`;
+          dispatch(setProfile(result));
+        },
+        onError: () => {
+          removeCookie("token");
+          window.location.replace("/login");
+        },
+      }
+    );
+  }, [cookies.token]);
 
-  if (!authApi.checkToken.data) return null;
+  if (!authApi.checkToken.data) return <div>Loading...</div>;
 
   return (
     <>
@@ -98,37 +130,41 @@ const Layout = () => {
             <div className="py-3 px-1">
               <img src={logo} className="w-[50px]" alt="" />
             </div>
-            {NavigationMenu.map((menu, idx) => (
-              <div
-                key={idx}
-                onClick={() => {
-                  if (menu.title === "Chats") {
-                    dispatch(setIsOpen(true));
-                  }
-                  if (location.includes(menu?.location as string)) {
-                    return;
-                  } else if (menu?.location) {
-                    navigate(menu?.location);
-                  }
-                }}
-              >
-                <CostumTooltip text={menu.title}>
-                  <CustomButton
-                    ripleColor="bg-black/30 dark:bg-white/30"
-                    type="button"
-                    className={`${
-                      location.includes(menu?.location as string)
-                        ? "text-primary dark:text-primaryDark"
-                        : "text-neutralDark dark:text-neutral"
-                    } bg-transparent shadow-none rounded-lg text-[22px] w-full py-4 px-[18px] hover:bg-neutralHover dark:hover:bg-neutralHoverDark hover:shadow-none`}
-                  >
-                    {location.includes(menu?.location as string)
-                      ? menu.icon
-                      : menu.outlineIcon}
-                  </CustomButton>
-                </CostumTooltip>
-              </div>
-            ))}
+            {NavigationMenu.map((menu, idx) => {
+              const isRoot = menu.location === "/";
+              const isActive = isRoot
+                ? location === "/"
+                : location.startsWith(menu.location);
+
+              return (
+                <div
+                  key={idx}
+                  onClick={() => {
+                    if (menu.title === "Chats") {
+                      dispatch(setIsOpen(true));
+                    }
+
+                    if (!isActive && menu.location) {
+                      navigate(menu.location);
+                    }
+                  }}
+                >
+                  <CostumTooltip text={menu.title}>
+                    <CustomButton
+                      ripleColor="bg-black/30 dark:bg-white/30"
+                      type="button"
+                      className={`${
+                        isActive
+                          ? "text-primary dark:text-primaryDark"
+                          : "text-neutralDark dark:text-neutral"
+                      } bg-transparent shadow-none rounded-lg text-[22px] w-full py-4 px-[18px] hover:bg-neutralHover dark:hover:bg-neutralHoverDark hover:shadow-none`}
+                    >
+                      {isActive ? menu.icon : menu.outlineIcon}
+                    </CustomButton>
+                  </CostumTooltip>
+                </div>
+              );
+            })}
           </div>
           <CostumTooltip text={"logout"}>
             <div className="flex flex-col gap-2 cursor-pointer">
@@ -229,4 +265,4 @@ const Layout = () => {
   );
 };
 
-export default Layout;
+export default MainLayout;

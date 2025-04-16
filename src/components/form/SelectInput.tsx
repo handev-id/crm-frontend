@@ -109,7 +109,7 @@ export default function Select({
                 key={option.value}
                 type="button"
                 onClick={() => handleOptionClick(option)}
-                className={`block w-full text-start px-4 py-3 text-sm font-semibold text-neutralDark dark:text-neutral hover:bg-neutral dark:hover:bg-neutralDark ${
+                className={`block w-full text-start px-4 py-3 text-sm font-semibold text-neutralDark dark:text-neutral hover:bg-neutral dark:hover:bg-Dark ${
                   value === option.value ? "bg-neutral dark:bg-neutralDark" : ""
                 }`}
                 role="menuitem"

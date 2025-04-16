@@ -18,7 +18,7 @@ const SearchInput = ({
   const [searchIcon, setSearchIcon] = useState(false);
 
   useEffect(() => {
-   show && show(isShow);
+    show && show(isShow);
   }, [isShow]);
 
   if (isOpen) {
@@ -28,11 +28,13 @@ const SearchInput = ({
           {...props}
           className="bg-neutral dark:text-neutral placeholder:text-sm text-Dark dark:bg-neutralHoverDark pl-4 pr-12 py-2.5 w-full rounded-lg outline-none"
         />
-          <div
-            className={'text-[22px] text-neutralDark dark:text-neutralHover absolute top-3 right-4'}
-          >
-            <span>{GLOBAL_ICONS.search}</span>
-          </div>
+        <div
+          className={
+            "text-[22px] text-neutralDark dark:text-neutralHover absolute top-3 right-4"
+          }
+        >
+          <span>{GLOBAL_ICONS.search}</span>
+        </div>
       </div>
     );
   }

@@ -29,6 +29,7 @@ import {
   FaRegUser,
   FaRobot,
   FaRocketchat,
+  FaTelegramPlane,
   FaTiktok,
   FaUser,
   FaUserFriends,
@@ -58,15 +59,12 @@ import {
   IoIosArrowBack,
   IoMdArrowBack,
   IoMdCheckmark,
+  IoMdCheckmarkCircleOutline,
   IoMdClose,
   IoMdNotifications,
   IoMdSend,
 } from "react-icons/io";
-import {
-  LuImagePlus,
-  LuPanelLeftOpen,
-  LuPanelRightOpen,
-} from "react-icons/lu";
+import { LuImagePlus, LuPanelLeftOpen, LuPanelRightOpen } from "react-icons/lu";
 import { GoPencil, GoPlus, GoReply } from "react-icons/go";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import { FiDownload } from "react-icons/fi";
@@ -83,7 +81,7 @@ export const GLOBAL_ICONS = {
   close: <IoCloseCircleOutline />,
   closeX: <IoMdClose />,
   check: <IoMdCheckmark />,
-  checkOutline: <IoCheckmarkCircleOutline />,
+  checkOutline: <IoMdCheckmarkCircleOutline />,
   archived: <IoCheckmarkDone />,
   download: <BsCloudDownload />,
   back: <LuPanelLeftOpen />,
@@ -129,7 +127,8 @@ export const GLOBAL_ICONS = {
   arrowBack: <IoMdArrowBack />,
   copy: <FaCopy />,
   businessOutline: <MdOutlineBusinessCenter />,
-  businessFill: <MdAddBusiness />
+  businessFill: <MdAddBusiness />,
+  telegram: <FaTelegramPlane />,
 };
 
 export const NavigationMenu = [
@@ -138,7 +137,7 @@ export const NavigationMenu = [
     title: "Chats",
     icon: <IoChatboxEllipses />,
     outlineIcon: <IoChatboxEllipsesOutline />,
-    location: "/conversations",
+    location: "/",
   },
   {
     id: 2,
@@ -152,14 +151,14 @@ export const NavigationMenu = [
     title: "Broadcast",
     icon: <RiSpeakFill />,
     outlineIcon: <RiSpeakLine />,
-    // location: "/brodcast",
+    location: "/brodcast",
   },
   {
     id: 5,
     title: "Reporting",
     icon: <BsBarChartLineFill />,
     outlineIcon: <BsBarChartLine />,
-    // location: "/reporting",
+    location: "/reporting",
   },
   {
     id: 3,

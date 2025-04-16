@@ -5,10 +5,10 @@ import { useState } from "react";
 import { UseFormSetValue, UseFormWatch } from "react-hook-form";
 import { ConversationState } from ".";
 import { channelsMap, filteringConversation } from "../../../utils/constant";
+import Tab, { TabGroup } from "../../../components/Tab";
 import Select from "../../../components/form/SelectInput";
 import LargeSelect from "../../../components/form/LargeSelectInput";
 import SearchInput from "../../../components/form/SearchInput";
-import Tab, { TabGroup } from "../../../components/Tab";
 
 type Props = {
   watch: UseFormWatch<ConversationState>;
@@ -23,10 +23,10 @@ const Header = ({ watch, setValue }: Props) => {
     <>
       <div className="border-b bg-white dark:bg-Dark border-base w-full">
         <div className="h-16 px-4 flex justify-between items-center">
-          {((watch("conversationIds") as string[]) || []).length === 0 && (
+          {((watch("conversationIds") as number[]) || []).length === 0 && (
             <div className="font-bold text-[18px]">Inbox</div>
           )}
-          {((watch("conversationIds") as string[]) || []).length > 0 ? (
+          {((watch("conversationIds") as number[]) || []).length > 0 ? (
             <>
               <CustomButton
                 onClick={() => {
@@ -67,12 +67,14 @@ const Header = ({ watch, setValue }: Props) => {
                 options={Object.entries(channelsMap).map(([channel]) => {
                   return {
                     label: channel,
-                    value: channel.toLowerCase()
-                  }
+                    value: channel.toLowerCase(),
+                  };
                 })}
                 onChange={(value) => {}}
                 containerClassName="mx-6 w-full"
-                leftItems={Object.entries(channelsMap).map(([_, item]) => item.icon)}
+                leftItems={Object.entries(channelsMap).map(
+                  ([_, item]) => item.icon
+                )}
               />
               <div className="flex gap-2 items-center">
                 <CustomButton
@@ -102,9 +104,15 @@ const Header = ({ watch, setValue }: Props) => {
           )}
         </div>
       </div>
-      <TabGroup>
+      <TabGroup className="justify-evenly">
         {filteringConversation.map((menu, i) => (
-          <Tab key={i} onClick={() => setCurrentTab(menu.value)} isActive={menu.value === currentTab}>{menu.title}</Tab>
+          <Tab
+            key={i}
+            onClick={() => setCurrentTab(menu.value)}
+            isActive={menu.value === currentTab}
+          >
+            {menu.title}
+          </Tab>
         ))}
       </TabGroup>
     </>

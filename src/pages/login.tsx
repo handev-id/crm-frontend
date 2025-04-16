@@ -1,7 +1,6 @@
 import { useCookies } from "react-cookie";
 import { Controller, useForm } from "react-hook-form";
 import { GLOBAL_ICONS } from "../utils/icons";
-import { Loading } from "../components/Loading";
 import { UserModel } from "../apis/models/user";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/images/CAQAP 01.png";
@@ -9,6 +8,7 @@ import Input from "../components/form/Input";
 import AuthEndpoint from "../apis/endpoints/auth";
 import Error from "../components/Error";
 import Button from "../components/button/Button";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [_, setCookie] = useCookies();
@@ -24,23 +24,29 @@ const Login = () => {
   const authApi = AuthEndpoint();
 
   const onLogin = ({ email, password }: Partial<UserModel>) => {
-    authApi.login.mutate(
-      { email, password },
+    toast.promise(
+      authApi.login.mutateAsync(
+        { email, password },
+        {
+          onSuccess: (result) => {
+            if (result) {
+              reset();
+              setCookie("token", result.token);
+              navigate("/");
+            }
+          },
+        }
+      ),
       {
-        onSuccess: (result) => {
-          if (result) {
-            reset();
-            setCookie("token", result.token);
-            navigate("/conversations");
-          }
-        },
+        loading: "Loading...",
+        success: "Login Berhasil",
+        error: "Login Gagal, silahkan coba lagi",
       }
     );
   };
 
   return (
     <div className="bg-neutral dark:bg-Dark overflow-y-auto h-screen px-4 py-16">
-      <Loading show={authApi.login.isPending} />
       <div className="w-full lg:w-[550px] m-auto p-6 rounded-lg shadow-lg bg-white dark:bg-neutralDark">
         <div className="logo dark:hidden mb-8 w-1/2 lg:w-72  mx-auto">
           <img src={logo} alt="Logo Caqap" />
@@ -49,7 +55,10 @@ const Login = () => {
           <img src={logo} alt="Logo Caqap" />
         </div>
 
-        <Error customMsg="Email Atau Password Salah" error={authApi.login.error} />
+        <Error
+          customMsg="Email Atau Password Salah"
+          error={authApi.login.error}
+        />
         <form
           onSubmit={handleSubmit(onLogin)}
           className="flex mx-auto flex-col gap-4"

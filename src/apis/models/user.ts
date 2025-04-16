@@ -12,5 +12,5 @@ export interface UserModel extends BaseModel {
   avatar: File | AttachmentModel | null;
   token?: string;
   roles: RoleKey[];
-  tenant?: Omit<TenantModel, 'users'>
+  tenant?: TenantModel;
 }

@@ -5,12 +5,10 @@ import { setWidth } from "../utils/store/slices/drawer";
 
 const Resizable = ({
   leftContent,
-  middleContent,
   rightContent,
 }: {
   leftContent: React.ReactNode;
-  middleContent: React.ReactNode;
-  rightContent: React.ReactNode;
+  rightContent?: React.ReactNode;
 }) => {
   const dispatch = useDispatch();
 
@@ -22,18 +20,16 @@ const Resizable = ({
       >
         {leftContent}
       </Panel>
-      <PanelResizeHandle
-        className={
-          "hover:bg-primary dark:hover:bg-primaryDark active:bg-primary dark:active:bg-primaryDark w-[5px]"
-        }
-      />
-      <Panel defaultSize={45}>{middleContent}</Panel>
-      <PanelResizeHandle
-        className={
-          "hover:bg-primary dark:hover:bg-primaryDark active:bg-primary dark:active:bg-primaryDark w-[5px]"
-        }
-      />
-      <Panel>{rightContent}</Panel>
+      {rightContent && (
+        <>
+          {/* <PanelResizeHandle
+            className={
+              "hover:bg-primary dark:hover:bg-primaryDark active:bg-primary dark:active:bg-primaryDark w-[5px]"
+            }
+          /> */}
+          <Panel defaultSize={60}>{rightContent}</Panel>
+        </>
+      )}
     </PanelGroup>
   );
 };

@@ -1,14 +1,14 @@
+import "react-loading-skeleton/dist/skeleton.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect} from "react";
+import { useEffect } from "react";
 import { RootState } from "./utils/store";
 import { setTheme } from "./utils/store/slices/theme";
-import 'react-loading-skeleton/dist/skeleton.css'
 import Login from "./pages/login";
-import Layout from "./pages/layout";
-import LayoutSettings from "./pages/settings/layout";
+import MainLayout from "./pages/layout";
+import SettingsLayout from "./pages/settings/layout";
 import moment from "moment";
-import Conversations from "./pages/conversations";
+import ConversationsLayout from "./pages/conversation/layout";
 import Register from "./pages/register";
 import Contacts from "./pages/contacts";
 import Account from "./pages/settings/account";
@@ -45,15 +45,19 @@ const App = () => {
   return (
     <RouterProvider
       router={createBrowserRouter([
-        { path: "/login", element: <Login /> },
-        { path: "/register", element: <Register /> },
         {
           path: "/",
-          element: <Layout />,
+          element: <MainLayout />,
           children: [
             {
-              path: "conversations",
-              element: <Conversations />,
+              path: "",
+              element: <ConversationsLayout />,
+              children: [
+                {
+                  path: "conversation",
+                  element: <div></div>,
+                },
+              ],
             },
             {
               path: "contacts",
@@ -61,10 +65,11 @@ const App = () => {
             },
             {
               path: "settings",
-              element: <LayoutSettings />,
+              element: <SettingsLayout />,
               children: [
                 {
-                  path: "tenant",
+                  path: "",
+                  index: true,
                   element: <Tenant />,
                 },
                 {
@@ -80,6 +85,8 @@ const App = () => {
             },
           ],
         },
+        { path: "/login", element: <Login /> },
+        { path: "/register", element: <Register /> },
       ])}
     />
   );

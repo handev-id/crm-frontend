@@ -1,19 +1,18 @@
-export type ConversationModel = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  phone: string;
-  avatar: string;
-  lastChat: string;
-  createdAt: string;
-  updatedAt: string;
-  tags: Tag[];
-};
+import { BaseModel } from "./base";
+import { ChannelModel } from "./channel";
+import { CustomerModel } from "./customer";
+import { MessageModel } from "./message";
+import { UserModel } from "./user";
 
-export type Tag = {
-  id: string;
-  name: string;
-  color: string;
+export interface ConversationModel extends BaseModel {
+  lastMessage: MessageModel;
+  customerId: number;
+  agentId: number | null;
+  webhookConversationId: string;
+  channelId: number;
   createdAt: string;
   updatedAt: string;
-};
+  customer: CustomerModel;
+  agent: UserModel | null;
+  channel: ChannelModel;
+}

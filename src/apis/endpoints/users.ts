@@ -7,20 +7,23 @@ import { MetaData } from "../../types/meta-data";
 import { AxiosRequestConfig } from "axios";
 
 export default function UsersEndpoint() {
-  const index = useLazyGetApi<{ meta: MetaData; data: UserModel[] }, AxiosRequestConfig>({
+  const index = useLazyGetApi<
+    { meta: MetaData; data: UserModel[] },
+    AxiosRequestConfig
+  >({
     endpoint: "/users",
-    key: "USERS",
+    key: ["USERS"],
   });
 
   const store = usePostApi<UserModel, UserModel>({
     endpoint: "/users",
-    key: "CREATE USER",
+    key: ["CREATE USER"],
     isFormData: true,
   });
 
   const update = usePutApi<UserModel, UserModel>({
     endpoint: (payload) => `/users/${payload.id}`,
-    key: "UPDATE_USER",
+    key: ["UPDATE_USER"],
     isFormData: true,
   });
 
@@ -34,12 +37,12 @@ export default function UsersEndpoint() {
     }
   >({
     endpoint: (payload) => `/users/${payload.id}`,
-    key: "UPDATE_USER",
+    key: ["UPDATE_USER"],
   });
 
   const destroy = usePostApi<UserModel, { ids: number[] }>({
     endpoint: "/users/delete",
-    key: "DELETE_USERS",
+    key: ["DELETE_USERS"],
   });
 
   return { store, index, update, updatePassword, destroy };

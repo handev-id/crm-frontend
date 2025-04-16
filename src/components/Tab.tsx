@@ -10,7 +10,7 @@ const Tab = ({
 } & HTMLProps<HTMLDivElement>) => {
   return (
     <div
-    {...props}
+      {...props}
       className={`py-4 px-3 border-b-2 text-neutralDark dark:text-neutral duration-300 ${
         isActive
           ? "text-primary dark:text-primaryDark border-primary dark:border-primaryDark"
@@ -24,10 +24,18 @@ const Tab = ({
 
 export default Tab;
 
-export const TabGroup = ({ children }: { children: React.ReactNode }) => {
+export const TabGroup = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
   return (
     <div
-      className={`flex cursor-pointer items-center w-full overflow-x-scroll scrollbar-hidden text-sm font-semibold`}
+      className={`flex cursor-pointer ${
+        className || ""
+      } items-center w-full overflow-x-scroll scrollbar-hidden text-sm font-semibold`}
     >
       {children}
     </div>

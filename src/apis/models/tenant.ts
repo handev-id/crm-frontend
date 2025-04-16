@@ -10,5 +10,5 @@ export interface TenantModel extends BaseModel {
   logo: AttachmentModel | null;
   address: string | null;
   description: string | null;
-  users?: Omit<UserModel, 'tenant'>[]
+  users?: UserModel[];
 }
