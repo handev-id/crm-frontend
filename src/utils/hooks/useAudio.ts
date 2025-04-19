@@ -1,33 +1,35 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
-export const useAudio = (src: string) => {
-  const audioCtxRef = useRef<AudioContext | null>(null);
-  const bufferRef = useRef<AudioBuffer | null>(null);
+const useAudio = (src: string) => {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    const init = async () => {
-      const AudioContextClass =
-        window.AudioContext || (window as any).webkitAudioContext;
-      const audioCtx = new AudioContextClass();
-      audioCtxRef.current = audioCtx;
+    const audio = new Audio(src);
+    audio.preload = "auto";
 
-      const res = await fetch(src);
-      const arrayBuffer = await res.arrayBuffer();
-      const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
-      bufferRef.current = audioBuffer;
+    const handleCanPlay = () => {
+      setIsReady(true);
     };
 
-    init();
+    audio.addEventListener("canplaythrough", handleCanPlay);
+    audioRef.current = audio;
+
+    return () => {
+      audio.removeEventListener("canplaythrough", handleCanPlay);
+    };
   }, [src]);
 
   const play = () => {
-    if (!audioCtxRef.current || !bufferRef.current) return;
-
-    const source = audioCtxRef.current.createBufferSource();
-    source.buffer = bufferRef.current;
-    source.connect(audioCtxRef.current.destination);
-    source.start();
+    if (audioRef.current && isReady) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch((err) => {
+        console.warn("Playback failed:", err);
+      });
+    }
   };
 
-  return { play };
+  return { play, isReady };
 };
+
+export default useAudio;

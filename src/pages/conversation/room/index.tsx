@@ -37,7 +37,8 @@ const Room = () => {
 
   useEffect(() => {
     if (message) {
-      if (from === "user") {
+      const lastMessage = messages[messages.length - 1];
+      if (from === "user" && lastMessage && lastMessage.id === 0) {
         remove(messages.length - 1);
         insert(messages.length, message);
         handleScrollRoom(bodyRef, { behavior: "smooth", duration: 100 });

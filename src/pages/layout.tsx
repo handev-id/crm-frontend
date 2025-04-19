@@ -24,19 +24,19 @@ import {
 } from "../utils/store/slices/new-message";
 import socket from "../apis/socket";
 import { useNotification } from "../utils/hooks/useNotification";
-import { useAudio } from "../utils/hooks/useAudio";
-import sendNotif from "../assets/audio/send.mp3";
+import checkSound from "../assets/audio/send.mp3";
+import useAudio from "../utils/hooks/useAudio";
 
 const MainLayout = () => {
   const navigate = useNavigate();
   const location = useLocation().pathname;
   const dispatch = useDispatch();
-  const { play } = useAudio(sendNotif);
-  const { notify } = useNotification();
   const [cookies, , removeCookie] = useCookies(["token"]);
+  const { notify } = useNotification();
   const { isOpenDetail } = useSelector((state: RootState) => state.drawer);
   const { isDarkMode, theme } = useSelector((state: RootState) => state.theme);
   const { profile } = useSelector((state: RootState) => state.profile);
+  const { play, isReady } = useAudio(checkSound);
 
   const authApi = AuthEndpoint();
 
@@ -65,7 +65,9 @@ const MainLayout = () => {
           body: data.message?.text || "Pesan Baru",
         });
       } else {
-        play();
+        if (isReady) {
+          play();
+        }
       }
 
       dispatch(setFromCustomer(data.from!));

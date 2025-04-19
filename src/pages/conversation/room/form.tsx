@@ -109,6 +109,12 @@ const Form = () => {
             inputClass="scrollbar"
             shouldReturn={false}
             shouldConvertEmojiToImage={false}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                control.handleSubmit(onSubmit)();
+              }
+            }}
           />
         )}
       />
