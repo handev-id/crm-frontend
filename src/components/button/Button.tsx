@@ -7,6 +7,7 @@ type ButtonProps = {
   sizing?: keyof typeof sizingStyles;
   coloring?: keyof typeof coloringStyles;
   ripleColor?: keyof typeof ripleStyles;
+  type?: "button" | "submit" | "reset";
 };
 
 const sizes = ["sm", "base", "fullSm", "fullBase", "icon"] as const;
@@ -18,13 +19,14 @@ const sizingStyles: Record<(typeof sizes)[number], string> = {
   base: "h-11 w-28 text-sm",
   fullSm: "w-full h-10 text-xs",
   fullBase: "w-full h-11 text-sm",
-  icon: "p-2.5 text-xl"
+  icon: "p-2.5 text-xl",
 };
 
 const coloringStyles: Record<(typeof colors)[number], string> = {
   primary: "bg-primary text-white",
   danger: "bg-danger text-white",
-  neutral: "bg-neutral dark:bg-neutralDark hover:bg-neutralHover dark:hover:bg-neutralHoverDark",
+  neutral:
+    "bg-neutral dark:bg-neutralDark hover:bg-neutralHover dark:hover:bg-neutralHoverDark",
 };
 
 const ripleStyles: Record<(typeof ripleColors)[number], string> = {
@@ -67,16 +69,25 @@ const Button = ({
   return (
     <button
       {...props}
+      type={type}
       ref={buttonRef}
       onClick={(e) => {
+        if (type === "button") {
+          e.preventDefault();
+        }
         handleClick(e);
         props.onClick?.(e);
       }}
       disabled={Boolean(props.disabled || loading)}
-      className={`myButton rounded-lg font-semibold disabled:cursor-not-allowed disabled:opacity-50 ${sizingStyles[sizing]} ${coloringStyles[coloring]} ${props?.className || ''}`}
+      className={`myButton rounded-lg font-semibold disabled:cursor-not-allowed disabled:opacity-50 ${
+        sizingStyles[sizing]
+      } ${coloringStyles[coloring]} ${props?.className || ""}`}
     >
       {loading ? <div className="small-spinner mx-auto"></div> : children}
-      <span ref={rippleRef} className={`rippleEffect ${ripleStyles[ripleColor]}`}></span>
+      <span
+        ref={rippleRef}
+        className={`rippleEffect ${ripleStyles[ripleColor]}`}
+      ></span>
     </button>
   );
 };

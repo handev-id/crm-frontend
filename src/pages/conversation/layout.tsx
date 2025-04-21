@@ -2,15 +2,17 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../utils/store";
 import { setIsMobile, setIsOpen } from "../../utils/store/slices/drawer";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Resizable from "../../components/Resizble";
 import Detail from "./detail";
 import Room from "./room";
 import Drawer from "./drawer";
 import NoSelectedConversation from "../../components/NoSelectedConversation";
+import { setActiveConversation } from "../../utils/store/slices/selected-message";
 
 export default function ConversationsLayout() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const pathName = useLocation().pathname;
   const { isOpen } = useSelector((state: RootState) => state.drawer);
 
@@ -21,6 +23,10 @@ export default function ConversationsLayout() {
     } else {
       dispatch(setIsMobile(true));
     }
+
+    return () => {
+      dispatch(setActiveConversation(null));
+    };
   }, []);
 
   return (

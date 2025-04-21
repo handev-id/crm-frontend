@@ -79,7 +79,7 @@ const Account = () => {
   return (
     <div className="grid lg:grid-cols-3 gap-6 items-start">
       <div className="lg:col-span-2 space-y-6 w-full cn-box-base">
-        <div className="h2 pb-3 border-b mb-6 border-base">Informasi Akun</div>
+        <div className="h2 box-header">Informasi Akun</div>
         <form
           onSubmit={handleSubmit(onUpdate)}
           className="grid lg:grid-cols-2 gap-6"
@@ -139,7 +139,7 @@ const Account = () => {
         </form>
       </div>
       <div className="lg:col-span-1 space-y-6 w-full cn-box-base">
-        <div className="h2 pb-3 border-b mb-6 border-base">Keamanan</div>
+        <div className="h2 box-header">Keamanan</div>
         <div className="space-y-6">
           <Input
             type="password"

@@ -63,7 +63,7 @@ export default function Select({
         <CustomButton
           onClick={toggleDropdown}
           ripleColor="bg-black/30 dark:bg-white/30"
-          className={`h-11 py-2 shadow-none text-xs sm:text-sm w-full rounded-lg text-end text-neutralDark dark:text-neutralHover p-2.5 ${
+          className={`h-11 py-2 border-2 border-transparent transition-colors duration-500 focus:border-blue-500 dark:focus:border-primaryDark shadow-none text-xs sm:text-sm w-full rounded-lg text-end text-neutralDark dark:text-neutralHover p-2.5 ${
             isDefault
               ? "bg-neutral dark:bg-neutralHoverDark"
               : "bg-transparent hover:bg-neutral dark:hover:bg-neutralDark"

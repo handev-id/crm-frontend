@@ -1,22 +1,22 @@
 import { CustomButton } from "../../../components/button/CustomButton";
-import LargeSelect from "../../../components/form/LargeSelectInput";
 import { GLOBAL_ICONS } from "../../../utils/icons";
-import InputEmoji from "react-input-emoji";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../utils/store";
 import { Controller, useForm } from "react-hook-form";
 import { SendMessagePayload } from "../../../types/send-message-payload";
-import socket from "../../../apis/socket";
 import { useEffect } from "react";
 import { setMessage } from "../../../utils/store/slices/new-message";
 import { UserModel } from "../../../apis/models/user";
+import LargeSelect from "../../../components/form/LargeSelectInput";
+import InputEmoji from "react-input-emoji";
+import socket from "../../../apis/socket";
 
 const Form = () => {
   const dispatch = useDispatch();
   const { profile } = useSelector((state: RootState) => state.profile);
   const { theme } = useSelector((state: RootState) => state.theme);
-  const { selectedConversation: conversation } = useSelector(
-    (state: RootState) => state.selectedConversation
+  const { activeConversation: conversation } = useSelector(
+    (state: RootState) => state.activeConversation
   );
 
   const { control, reset } = useForm<SendMessagePayload>();
@@ -34,6 +34,7 @@ const Form = () => {
         webhookMessageId: 0,
         updatedAt: new Date().toISOString(),
         id: 0,
+        conversationId: conversation?.id!,
       })
     );
 

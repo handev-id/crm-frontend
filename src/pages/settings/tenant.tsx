@@ -55,7 +55,7 @@ const Tenant = () => {
 
   return (
     <div className="space-y-6 w-full cn-box-base">
-      <div className="h2 pb-3 border-b mb-6 border-base">Informasi Bisnis</div>
+      <div className="h2 box-header">Informasi Bisnis</div>
       <form
         onSubmit={handleSubmit(onUpdate)}
         className="grid lg:grid-cols-3 gap-6"

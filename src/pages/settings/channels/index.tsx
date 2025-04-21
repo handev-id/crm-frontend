@@ -22,6 +22,7 @@ const Channels = () => {
               </Tab>
             ))}
           </TabGroup>
+          <div></div>
         </div>
       </div>
       <div className="cn-box-base">

@@ -5,6 +5,7 @@ import profileReducer from "./slices/my-profile";
 import confirmReducer from "./slices/confirm";
 import newMessageReducer from "./slices/new-message";
 import selectedConversationReducer from "./slices/selected-message";
+import channelsReducer from "./slices/channels";
 
 const store = configureStore({
   reducer: {
@@ -12,8 +13,9 @@ const store = configureStore({
     theme: themeReducer,
     profile: profileReducer,
     confirm: confirmReducer,
-    message: newMessageReducer,
-    selectedConversation: selectedConversationReducer,
+    newMessage: newMessageReducer,
+    activeConversation: selectedConversationReducer,
+    channels: channelsReducer,
   },
   middleware: (getDefaultMiddlewware) =>
     getDefaultMiddlewware({

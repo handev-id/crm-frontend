@@ -1,8 +1,8 @@
 import { useRef } from "react";
 import SearchInput from "../../components/form/SearchInput";
-import { Skeleton } from "../../components/Skeleton";
 import { UserModel } from "../../apis/models/user";
 import { AttachmentModel } from "../../apis/models/attachment";
+import Skeleton from "react-loading-skeleton";
 
 const Contacts = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);

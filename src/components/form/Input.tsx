@@ -34,9 +34,7 @@ const Input = forwardRef(
 
     return (
       <div>
-        {label && (
-          <div className="mb-2">{label}</div>
-        )}
+        {label && <div className="mb-2">{label}</div>}
         <PositionedContainer
           items={leftItem || rightItem}
           className={`dark:text-neutral text-Dark/70 ${
@@ -63,7 +61,9 @@ const Input = forwardRef(
             ref={inputRef as LegacyRef<HTMLInputElement>}
             className={`${
               sizing === "sm" ? "pr-1.5 py-2.5" : "pr-3 py-3.5"
-            } bg-neutral dark:text-neutral placeholder:text-sm text-Dark dark:bg-neutralHoverDark w-full rounded-lg outline-none ${props.className}`}
+            } bg-neutral dark:text-neutral focus:border-blue-500 border-2 transition-colors duration-500 border-transparent placeholder:text-sm text-Dark dark:bg-neutralHoverDark w-full rounded-lg outline-none ${
+              props.className
+            }`}
           />
         </PositionedContainer>
         {message && <div className="text-sm text-red-600 mt-1">{message}</div>}

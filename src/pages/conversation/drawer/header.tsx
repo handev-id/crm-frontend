@@ -23,10 +23,10 @@ const Header = ({ watch, setValue }: Props) => {
     <>
       <div className="border-b bg-white dark:bg-Dark border-base w-full">
         <div className="h-16 px-4 flex justify-between items-center">
-          {((watch("conversationIds") as number[]) || []).length === 0 && (
-            <div className="font-bold text-[18px]">Inbox</div>
-          )}
-          {((watch("conversationIds") as number[]) || []).length > 0 ? (
+          {((watch("conversationIds") as unknown as number[]) || []).length ===
+            0 && <div className="font-bold text-[18px]">Inbox</div>}
+          {((watch("conversationIds") as unknown as number[]) || []).length >
+          0 ? (
             <>
               <CustomButton
                 onClick={() => {
@@ -34,7 +34,7 @@ const Header = ({ watch, setValue }: Props) => {
                     (watch("conversationIds") || []).length ===
                     (watch("conversations") || []).length
                   ) {
-                    setValue("conversationIds", []);
+                    setValue("conversationIds", [] as unknown as number[]);
                   } else {
                     setValue(
                       "conversationIds",

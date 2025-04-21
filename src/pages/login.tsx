@@ -3,7 +3,7 @@ import { Controller, useForm } from "react-hook-form";
 import { GLOBAL_ICONS } from "../utils/icons";
 import { UserModel } from "../apis/models/user";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../assets/images/CAQAP 01.png";
+import logo from "../assets/images/logo-horizontal/600.png";
 import Input from "../components/form/Input";
 import AuthEndpoint from "../apis/endpoints/auth";
 import Error from "../components/Error";
@@ -48,11 +48,12 @@ const Login = () => {
   return (
     <div className="bg-neutral dark:bg-Dark overflow-y-auto h-screen px-4 py-16">
       <div className="w-full lg:w-[550px] m-auto p-6 rounded-lg shadow-lg bg-white dark:bg-neutralDark">
-        <div className="logo dark:hidden mb-8 w-1/2 lg:w-72  mx-auto">
-          <img src={logo} alt="Logo Caqap" />
-        </div>
-        <div className="hidden dark:block mb-8 w-1/2 lg:w-72 mx-auto">
-          <img src={logo} alt="Logo Caqap" />
+        <div className="w-full">
+          <img
+            src={logo}
+            className="max-w-[200px] mx-auto object-contain"
+            alt="Logo Caqap"
+          />
         </div>
 
         <Error

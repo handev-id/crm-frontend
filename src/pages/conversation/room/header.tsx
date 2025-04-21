@@ -4,14 +4,14 @@ import { GLOBAL_ICONS } from "../../../utils/icons";
 import { RootState } from "../../../utils/store";
 
 const Header = () => {
-  const { selectedConversation } = useSelector(
-    (state: RootState) => state.selectedConversation
+  const { activeConversation } = useSelector(
+    (state: RootState) => state.activeConversation
   );
   return (
     <div className="border-b bg-white dark:text-neutral dark:bg-Dark border-base w-full">
       <div className="h-[65px] px-4 flex justify-between items-center">
         <div className="font-bold text-[18px]">
-          {selectedConversation?.customer.fullName}
+          {activeConversation?.customer.fullName}
         </div>
         <div className="flex items-center gap-2">
           <CustomButton

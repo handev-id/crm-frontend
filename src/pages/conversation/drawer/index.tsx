@@ -1,12 +1,16 @@
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { ConversationModel } from "../../../apis/models/conversation";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setActiveConversation } from "../../../utils/store/slices/selected-message";
+import { RootState } from "../../../utils/store";
+import { delay } from "../../../utils/helpers";
 import Header from "./header";
 import ConversationList from "./list";
 import ConversationsEndpoint from "../../../apis/endpoints/conversations";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setSelectedConversation } from "../../../utils/store/slices/selected-message";
+import SkeletonComponent from "../../../components/Skeleton";
+import socket from "../../../apis/socket";
 
 export type ConversationState = {
   conversationIds: number[];
@@ -18,12 +22,55 @@ const Drawer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const { newConversation, from } = useSelector(
+    (state: RootState) => state.newMessage
+  );
+  const { activeConversation } = useSelector(
+    (state: RootState) => state.activeConversation
+  );
+
   const { control, watch, reset, setValue } = useForm<ConversationState>();
 
-  const selectedConversation = (conv: ConversationModel) => {
-    dispatch(setSelectedConversation(conv));
+  const {
+    fields: conversations,
+    insert,
+    remove,
+    update,
+  } = useFieldArray({
+    control,
+    name: "conversations",
+    keyName: "uid",
+  });
+
+  const activedConversation = (conv: ConversationModel) => {
+    dispatch(setActiveConversation(conv));
     navigate("conversation");
+
+    delay(500, () => {
+      const index = conversations.findIndex((c) => c.id === conv.id);
+      if (index !== -1) {
+        update(index, { ...conv, unreadCount: 0 });
+      }
+    });
   };
+
+  useEffect(() => {
+    // INCOMING MESSAGE AND UPDATE CONVERSATION
+    if (from === "customer" && newConversation) {
+      const index = conversations.findIndex((c) => c.id === newConversation.id);
+      if (index !== -1) {
+        remove(index);
+      }
+      insert(0, newConversation);
+
+      if (newConversation.id === activeConversation?.id) {
+        delay(500, () => {
+          const updatedConv = { ...newConversation, unreadCount: 0 };
+          update(0, updatedConv);
+        });
+      }
+    }
+  }, [newConversation]);
 
   useEffect(() => {
     convsersationsApi.index.mutate(
@@ -40,31 +87,37 @@ const Drawer = () => {
   }, []);
 
   return (
-    <div
-      className={`h-screen w-full overflow-hidden bg-white dark:bg-Dark border border-base`}
-    >
+    <div className="h-screen w-full overflow-hidden bg-white dark:bg-Dark border border-base">
       <div className="sm:ml-[63px] text-Dark dark:text-neutralHover">
         <Header setValue={setValue} watch={watch} />
-        <div className="scrollbar h-screen pb-20 overflow-y-auto">
-          {(watch("conversations") || []).map((conv, index) => (
-            <div onClick={() => selectedConversation(conv)}>
-              <Controller
-                key={index}
-                control={control}
-                name="conversationIds"
-                render={({ field: { value, onChange } }) => (
-                  <ConversationList
-                    watch={watch}
-                    conversation={conv}
-                    key={index}
-                    onChange={onChange}
-                    value={value}
-                    index={index}
+        <div className="scrollbar h-screen overflow-x-hidden pb-20 overflow-y-auto">
+          {conversations.length > 0 && !convsersationsApi.index.isPending
+            ? conversations.map((conv, index) => (
+                <div
+                  key={conv.id} // ✅ gunakan id sebagai key
+                  onClick={() => activedConversation(conv)}
+                >
+                  <Controller
+                    control={control}
+                    name="conversationIds"
+                    render={({ field: { value, onChange } }) => (
+                      <ConversationList
+                        watch={watch}
+                        conversation={conv}
+                        onChange={onChange}
+                        value={value}
+                        index={index}
+                        isActive={activeConversation?.id === conv.id}
+                      />
+                    )}
                   />
-                )}
-              />
-            </div>
-          ))}
+                </div>
+              ))
+            : Array.from({ length: 8 }).map((_, i) => (
+                <div className="my-1 mx-3">
+                  <SkeletonComponent type="user-list" />
+                </div>
+              ))}
         </div>
       </div>
     </div>

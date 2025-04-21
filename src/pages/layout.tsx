@@ -14,35 +14,97 @@ import { confirmAlert } from "../utils/confirmAlert";
 import Avatar from "../components/Avatar";
 import moment from "moment";
 import OnlineStatus from "../components/OnlineStatus";
-import logo from "../assets/images/apple-touch-icon.png";
+import logo from "../assets/images/logo-png-250/2.png";
 import AuthEndpoint from "../apis/endpoints/auth";
 import {
   NewMessageState,
   setConversation,
-  setFromCustomer,
+  setFrom,
   setMessage,
 } from "../utils/store/slices/new-message";
 import socket from "../apis/socket";
 import { useNotification } from "../utils/hooks/useNotification";
-import checkSound from "../assets/audio/send.mp3";
 import useAudio from "../utils/hooks/useAudio";
+import { delay } from "../utils/helpers";
+import ChannelsEndpoint from "../apis/endpoints/channels";
+import { setChannels } from "../utils/store/slices/channels";
 
 const MainLayout = () => {
   const navigate = useNavigate();
   const location = useLocation().pathname;
   const dispatch = useDispatch();
-  const [cookies, , removeCookie] = useCookies(["token"]);
+  const [cookies, removeCookie] = useCookies(["token"]);
   const { notify } = useNotification();
   const { isOpenDetail } = useSelector((state: RootState) => state.drawer);
   const { isDarkMode, theme } = useSelector((state: RootState) => state.theme);
   const { profile } = useSelector((state: RootState) => state.profile);
-  const { play, isReady } = useAudio(checkSound);
+  const { play } = useAudio("/audio/send.mp3");
+  const { play: notifyAudio } = useAudio("/audio/notification.wav");
 
   const authApi = AuthEndpoint();
+  const channelsApi = ChannelsEndpoint();
 
   const onChangeTheme = () => {
     dispatch(setTheme(theme === "dark" ? "light" : "dark"));
   };
+
+  async function loadData() {
+    const channels = await channelsApi.index.mutateAsync({});
+    console.log(channels);
+    dispatch(setChannels(channels));
+  }
+
+  useEffect(() => {
+    if (!socket || !profile?.tenant?.id) return;
+
+    const channel = `new-message:${profile.tenant.id}`;
+    const handler = (data: NewMessageState) => {
+      if (data.from === "customer") {
+        if (!document.hasFocus()) {
+          notify("Centra Channel", {
+            body: data.newMessage?.text || "Pesan Baru",
+          });
+        }
+        notifyAudio();
+      } else {
+        play();
+      }
+
+      dispatch(setFrom(data.from!));
+      dispatch(setMessage(data.newMessage!));
+      dispatch(setConversation(data.newConversation!));
+    };
+
+    socket.on(channel, handler);
+
+    return () => {
+      socket.off(channel, handler);
+    };
+  }, [socket, profile?.tenant?.id]);
+
+  useEffect(() => {
+    if (cookies.token) {
+      authApi.checkToken.mutate(
+        {
+          headers: {
+            Authorization: `Bearer ${cookies.token}`,
+          },
+        },
+        {
+          onSuccess: (result) => {
+            axiosInstance.defaults.headers.common.Authorization = `Bearer ${cookies.token}`;
+            delay(500, async () => {
+              dispatch(setProfile(result));
+              await loadData();
+            });
+          },
+          onError: () => {
+            window.location.replace("/login");
+          },
+        }
+      );
+    }
+  }, [cookies.token]);
 
   const onLogout = () => {
     confirmAlert({
@@ -54,57 +116,6 @@ const MainLayout = () => {
       },
     });
   };
-
-  useEffect(() => {
-    if (!socket || !profile?.tenant?.id) return;
-
-    const channel = `new-message:${profile.tenant.id}`;
-    const handler = (data: NewMessageState) => {
-      if (data.from === "customer") {
-        notify("Centra Channel", {
-          body: data.message?.text || "Pesan Baru",
-        });
-      } else {
-        if (isReady) {
-          play();
-        }
-      }
-
-      dispatch(setFromCustomer(data.from!));
-      dispatch(setMessage(data.message!));
-      dispatch(setConversation(data.conversation!));
-    };
-
-    socket.on(channel, handler);
-
-    return () => {
-      socket.off(channel, handler);
-    };
-  }, [socket, profile?.tenant?.id]);
-
-  useEffect(() => {
-    if (!cookies.token) {
-      navigate("/login", { replace: true });
-      return;
-    }
-    authApi.checkToken.mutate(
-      {
-        headers: {
-          Authorization: `Bearer ${cookies.token}`,
-        },
-      },
-      {
-        onSuccess: (result) => {
-          axiosInstance.defaults.headers.common.Authorization = `Bearer ${cookies.token}`;
-          dispatch(setProfile(result));
-        },
-        onError: () => {
-          removeCookie("token");
-          window.location.replace("/login");
-        },
-      }
-    );
-  }, [cookies.token]);
 
   if (!authApi.checkToken.data) return <div>Loading...</div>;
 

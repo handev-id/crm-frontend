@@ -42,7 +42,13 @@ const Message: React.FC<ChatBubbleProps> = ({
           >
             {message?.attachment && <Attachment message={message} />}
             {message?.text !== "[File]" && (
-              <span className={message?.attachment ? "mt-2" : "m-0 p-0"}>
+              <span
+                className={
+                  message?.attachment
+                    ? "mt-2 whitespace-pre-line"
+                    : "m-0 p-0 whitespace-pre-line"
+                }
+              >
                 {message.text}
               </span>
             )}

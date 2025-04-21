@@ -8,5 +8,6 @@ export interface MessageModel extends BaseModel {
   attachment: AttachmentModel | null;
   sender: CustomerModel | UserModel;
   senderType: "customer" | "user";
+  conversationId: number;
   webhookMessageId: number;
 }

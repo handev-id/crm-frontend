@@ -3,33 +3,32 @@ import { ConversationModel } from "../../../apis/models/conversation";
 import { MessageModel } from "../../../apis/models/message";
 
 const initialState: {
-  message: MessageModel | null;
-  conversation: ConversationModel | null;
+  newMessage: MessageModel | null;
+  newConversation: ConversationModel | null;
   from: "user" | "customer" | null;
 } = {
-  message: null,
-  conversation: null,
+  newMessage: null,
+  newConversation: null,
   from: null,
 };
 
 const newMessageSlice = createSlice({
-  name: "message",
+  name: "new-message",
   initialState,
   reducers: {
     setMessage: (state, action: PayloadAction<MessageModel>) => {
-      state.message = action.payload;
+      state.newMessage = action.payload;
     },
     setConversation: (state, action: PayloadAction<ConversationModel>) => {
-      state.conversation = action.payload;
+      state.newConversation = action.payload;
     },
-    setFromCustomer: (state, action: PayloadAction<"customer" | "user">) => {
+    setFrom: (state, action: PayloadAction<"customer" | "user">) => {
       state.from = action.payload;
     },
   },
 });
 
-export const { setMessage, setConversation, setFromCustomer } =
-  newMessageSlice.actions;
+export const { setMessage, setConversation, setFrom } = newMessageSlice.actions;
 export default newMessageSlice.reducer;
 
 export type NewMessageState = typeof initialState;

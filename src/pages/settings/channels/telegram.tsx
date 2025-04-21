@@ -29,6 +29,7 @@ const Telegram = () => {
         {...register("token", { required: true })}
       />
       <Button
+        type="submit"
         loading={channelIntegrationsApi.telegram.isPending}
         className="ml-auto"
       >

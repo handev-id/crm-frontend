@@ -11,6 +11,7 @@ import MessagesEndpoint from "../../../apis/endpoints/messages";
 import useInteractivity from "../../../utils/hooks/useInteractivity";
 import SkeletonComponent from "../../../components/Skeleton";
 import Detail from "../detail";
+import socket from "../../../apis/socket";
 
 const Room = () => {
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -18,9 +19,11 @@ const Room = () => {
   const navigate = useNavigate();
   const { handleScrollRoom } = useInteractivity();
   const { theme } = useSelector((state: RootState) => state.theme);
-  const { from, message } = useSelector((state: RootState) => state.message);
-  const { selectedConversation } = useSelector(
-    (state: RootState) => state.selectedConversation
+  const { from, newMessage } = useSelector(
+    (state: RootState) => state.newMessage
+  );
+  const { activeConversation } = useSelector(
+    (state: RootState) => state.activeConversation
   );
 
   const { control, reset } = useForm<{ messages: MessageModel[] }>();
@@ -36,24 +39,24 @@ const Room = () => {
   });
 
   useEffect(() => {
-    if (message) {
+    if (newMessage && newMessage.conversationId === activeConversation?.id) {
       const lastMessage = messages[messages.length - 1];
       if (from === "user" && lastMessage && lastMessage.id === 0) {
         remove(messages.length - 1);
-        insert(messages.length, message);
+        insert(messages.length, newMessage);
         handleScrollRoom(bodyRef, { behavior: "smooth", duration: 100 });
       } else {
-        insert(messages.length, message);
+        insert(messages.length, newMessage);
         handleScrollRoom(bodyRef, { behavior: "smooth", duration: 100 });
       }
     }
-  }, [message]);
+  }, [newMessage]);
 
   useEffect(() => {
-    if (selectedConversation?.id) {
+    if (activeConversation) {
       messagesApi.index.mutate(
         {
-          params: { id: selectedConversation.id },
+          params: { id: activeConversation.id },
         },
         {
           onSuccess: (data) => {
@@ -67,7 +70,11 @@ const Room = () => {
     } else {
       navigate("/");
     }
-  }, [selectedConversation]);
+
+    return () => {
+      socket.emit("leave-conversation", activeConversation?.id);
+    };
+  }, [activeConversation]);
 
   if (!messages.length) return; // delete this code if load message too long
 

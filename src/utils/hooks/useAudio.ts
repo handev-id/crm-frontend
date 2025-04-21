@@ -21,11 +21,25 @@ const useAudio = (src: string) => {
   }, [src]);
 
   const play = () => {
-    if (audioRef.current && isReady) {
-      audioRef.current.currentTime = 0;
-      audioRef.current.play().catch((err) => {
-        console.warn("Playback failed:", err);
-      });
+    const tryPlay = () => {
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+        audioRef.current.play().catch((err) => {
+          console.warn("Playback failed:", err);
+        });
+      }
+    };
+
+    if (isReady) {
+      tryPlay();
+    } else {
+      // Optional: auto-play when ready
+      const interval = setInterval(() => {
+        if (isReady) {
+          tryPlay();
+          clearInterval(interval);
+        }
+      }, 100); // check setiap 100ms
     }
   };
 

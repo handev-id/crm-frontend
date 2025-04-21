@@ -2,25 +2,25 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ConversationModel } from "../../../apis/models/conversation";
 
 const initialState: {
-  selectedConversation: ConversationModel | null;
+  activeConversation: ConversationModel | null;
 } = {
-  selectedConversation: null,
+  activeConversation: null,
 };
 
 const selectedMessage = createSlice({
   name: "selectedMessage",
   initialState,
   reducers: {
-    setSelectedConversation: (
+    setActiveConversation: (
       state,
-      action: PayloadAction<ConversationModel>
+      action: PayloadAction<ConversationModel | null>
     ) => {
-      state.selectedConversation = action.payload;
+      state.activeConversation = action.payload;
     },
   },
 });
 
-export const { setSelectedConversation } = selectedMessage.actions;
+export const { setActiveConversation } = selectedMessage.actions;
 export default selectedMessage.reducer;
 
 export type NewMessageState = typeof initialState;

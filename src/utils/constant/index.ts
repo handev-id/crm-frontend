@@ -41,8 +41,8 @@ export const settingMenusMap: Record<string, SettingMenuItem> = {
     icon: GLOBAL_ICONS_FA.bell,
     allowed: ["owner", "admin"],
   },
-  "/settings/bot": {
-    title: "ChatBot",
+  "/settings/ai-agents": {
+    title: "Ai Agent",
     icon: GLOBAL_ICONS_FA.bot,
     allowed: ["owner", "admin"],
   },
