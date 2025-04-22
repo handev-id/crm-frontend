@@ -5,14 +5,14 @@ import { AiAgentModel } from "../../../apis/models/ai-agent";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../utils/store";
 import { channelsMap } from "../../../utils/constant";
+import { confirmAlert } from "../../../utils/confirmAlert";
+import { GLOBAL_ICONS_FA } from "../../../utils/icons/fa";
+import { useState } from "react";
 import Actions from "../../../components/Actions";
 import Input from "../../../components/form/Input";
 import MultiSelect from "../../../components/form/MultiSelectInput";
 import AiAgentEndpoint from "../../../apis/endpoints/ai-agent";
 import Skeleton from "react-loading-skeleton";
-import { confirmAlert } from "../../../utils/confirmAlert";
-import { GLOBAL_ICONS_FA } from "../../../utils/icons/fa";
-import { useState } from "react";
 import AiAgentDetail from "./detail";
 
 const AiAgentList = () => {
@@ -30,7 +30,7 @@ const AiAgentList = () => {
   } = useForm<AiAgentModel>();
 
   const handleUpsert = async (data: AiAgentModel) => {
-    const newAi = await aiAgentApi.upsert.mutateAsync(data);
+    const newAi = await aiAgentApi.create.mutateAsync(data);
     composeModal.control.close();
     setAiAgentDetail(newAi);
   };
@@ -49,7 +49,7 @@ const AiAgentList = () => {
   return (
     <>
       {aiAgentDetail ? (
-        <AiAgentDetail aiAgentDetail={aiAgentDetail} />
+        <AiAgentDetail setAiAgentDetail={() => setAiAgentDetail(null)} aiAgentDetail={aiAgentDetail} />
       ) : (
         <div className="cn-box-base">
           <div className="text-center box-header">
@@ -144,8 +144,8 @@ const AiAgentList = () => {
             diatas
           </p>
           <Actions
-            error={aiAgentApi.upsert.error}
-            loading={aiAgentApi.upsert.isPending}
+            error={aiAgentApi.create.error}
+            loading={aiAgentApi.create.isPending}
           />
         </form>
       </Modal>

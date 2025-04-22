@@ -31,6 +31,9 @@ export default {
         "fade-in": "fade-in 0.5s ease-out",
         "fade-out": "fade-out 0.5s ease-in",
       },
+      fontFamily: {
+        ubuntu: ['Ubuntu', 'sans-serif'],
+      },
     },
   },
   plugins: [],

@@ -1,6 +1,7 @@
 import useDeleteApi from "../methods/delete";
 import useGetApi from "../methods/get";
 import usePostApi from "../methods/post";
+import usePutApi from "../methods/put";
 import { AiAgentModel } from "../models/ai-agent";
 
 export default function AiAgentEndpoint() {
@@ -9,8 +10,13 @@ export default function AiAgentEndpoint() {
     key: ["AI_AGENTS"],
   });
 
-  const upsert = usePostApi<AiAgentModel, AiAgentModel>({
+  const create = usePostApi<AiAgentModel, AiAgentModel>({
     endpoint: "/ai-agent",
+    key: ["AI_AGENT_UPSERT"],
+  });
+
+  const update = usePutApi<AiAgentModel, AiAgentModel>({
+    endpoint: (data) => `/ai-agent/${data.id}`,
     key: ["AI_AGENT_UPSERT"],
   });
 
@@ -21,7 +27,8 @@ export default function AiAgentEndpoint() {
 
   return {
     index,
-    upsert,
+    create,
+    update,
     destroy,
   };
 }

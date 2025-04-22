@@ -64,7 +64,7 @@ const TextArea = forwardRef(
             ref={inputRef as LegacyRef<HTMLTextAreaElement>}
             className={`${
               sizing === "sm" ? "pr-1.5 py-2.5" : "pr-3 py-3.5"
-            } bg-neutral dark:text-neutral placeholder:text-sm text-Dark dark:bg-neutralHoverDark w-full rounded-lg outline-none ${props.className}`}
+            } bg-neutral dark:text-neutral border-2 border-transparent focus:border-primary dark:focus:border-primaryDark duration-500 placeholder:text-sm text-Dark dark:bg-neutralHoverDark w-full rounded-lg outline-none ${props.className}`}
           ></textarea>
         </PositionedContainer>
         {message && <div className="text-sm text-red-600 mt-1">{message}</div>}

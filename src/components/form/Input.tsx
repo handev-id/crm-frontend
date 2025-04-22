@@ -61,7 +61,7 @@ const Input = forwardRef(
             ref={inputRef as LegacyRef<HTMLInputElement>}
             className={`${
               sizing === "sm" ? "pr-1.5 py-2.5" : "pr-3 py-3.5"
-            } bg-neutral dark:text-neutral focus:border-blue-500 border-2 transition-colors duration-500 border-transparent placeholder:text-sm text-Dark dark:bg-neutralHoverDark w-full rounded-lg outline-none ${
+            } bg-neutral dark:text-neutral focus:border-blue-500 border-2 dark:focus:border-primaryDark transition-colors duration-500 border-transparent placeholder:text-sm text-Dark dark:bg-neutralHoverDark w-full rounded-lg outline-none ${
               props.className
             }`}
           />
