@@ -16,7 +16,6 @@ import Channels from "./pages/settings/channels";
 import Tenant from "./pages/settings/tenant";
 import OfflineMessage from "./components/OfflineMessage";
 import Users from "./pages/settings/users";
-import AiAgentDetail from "./pages/settings/ai-agents/detail";
 import AiAgentList from "./pages/settings/ai-agents/list";
 
 const App = () => {

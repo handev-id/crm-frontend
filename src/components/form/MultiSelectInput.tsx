@@ -77,7 +77,7 @@ export default function MultiSelect({
         <CustomButton
           onClick={toggleDropdown}
           ripleColor="bg-black/30 dark:bg-white/30"
-          className={`h-11 py-2 shadow-none text-xs sm:text-sm w-full rounded-lg text-end text-neutralDark dark:text-neutralHover p-2.5 ${
+          className={`h-11 py-2 shadow-none text-xs border-2 border-transparent focus:border-primary dark:focus:border-primaryDark sm:text-sm w-full rounded-lg text-end text-neutralDark dark:text-neutralHover p-2.5 ${
             isDefault
               ? "bg-neutral dark:bg-neutralHoverDark"
               : "bg-transparent hover:bg-neutral dark:hover:bg-neutralDark"

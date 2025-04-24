@@ -54,9 +54,9 @@ export const settingMenusMap: Record<string, SettingMenuItem> = {
 };
 
 export const channelsMap = {
-  Whatsapp: { icon: GLOBAL_ICONS.whatsapp, value: "whatsapp" },
-  Facebook: { icon: GLOBAL_ICONS.facebook, value: "facebook" },
-  Instagram: { icon: GLOBAL_ICONS.instagram, value: "instagram" },
-  Tiktok: { icon: GLOBAL_ICONS.tiktok, value: "tiktok" },
-  Telegram: { icon: GLOBAL_ICONS.telegram, value: "telegram" },
+  whatsapp: { icon: GLOBAL_ICONS.whatsapp, label: "Whatsapp" },
+  facebook: { icon: GLOBAL_ICONS.facebook, label: "Facebook" },
+  instagram: { icon: GLOBAL_ICONS.instagram, label: "Instagram" },
+  tiktok: { icon: GLOBAL_ICONS.tiktok, label: "Tiktok" },
+  telegram: { icon: GLOBAL_ICONS.telegram, label: "Telegram" },
 };

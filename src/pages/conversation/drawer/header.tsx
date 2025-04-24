@@ -9,6 +9,8 @@ import Tab, { TabGroup } from "../../../components/Tab";
 import Select from "../../../components/form/SelectInput";
 import LargeSelect from "../../../components/form/LargeSelectInput";
 import SearchInput from "../../../components/form/SearchInput";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../utils/store";
 
 type Props = {
   watch: UseFormWatch<ConversationState>;
@@ -16,6 +18,7 @@ type Props = {
 };
 
 const Header = ({ watch, setValue }: Props) => {
+  const { channels } = useSelector((state: RootState) => state.channels);
   const [currentTab, setCurrentTab] = useState("all");
   const [isFilter, setIsFilter] = useState(false);
 
@@ -64,10 +67,12 @@ const Header = ({ watch, setValue }: Props) => {
           ) : isFilter ? (
             <>
               <Select
-                options={Object.entries(channelsMap).map(([channel]) => {
+                options={(channels || []).map((channel) => {
                   return {
-                    label: channel,
-                    value: channel.toLowerCase(),
+                    label:
+                      channelsMap[channel.name as keyof typeof channelsMap]
+                        ?.label || "-",
+                    value: channel.name,
                   };
                 })}
                 onChange={(value) => {}}

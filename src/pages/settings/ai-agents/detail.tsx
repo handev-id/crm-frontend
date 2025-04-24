@@ -1,21 +1,28 @@
-import { useForm } from "react-hook-form";
+import { GLOBAL_ICONS } from "../../../utils/icons";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../utils/store";
+import { channelsMap } from "../../../utils/constant";
+import { Controller, useForm } from "react-hook-form";
 import { AiAgentModel } from "../../../apis/models/ai-agent";
-import Button from "../../../components/button/Button";
-import TextArea from "../../../components/form/TextArea";
 import { useEffect, useState } from "react";
-import Tab, { TabGroup } from "../../../components/Tab";
 import { aiAgentTabs } from "../../../utils/constant/ai-agent";
 import { GLOBAL_ICONS_FA } from "../../../utils/icons/fa";
+import Button from "../../../components/button/Button";
+import TextArea from "../../../components/form/TextArea";
+import Tab, { TabGroup } from "../../../components/Tab";
 import AiAgentEndpoint from "../../../apis/endpoints/ai-agent";
 import toast from "react-hot-toast";
-import { GLOBAL_ICONS } from "../../../utils/icons";
+import Toogle from "../../../components/button/Toogle";
+import Input from "../../../components/form/Input";
+import MultiSelect from "../../../components/form/MultiSelectInput";
 
 type Props = {
   aiAgentDetail: AiAgentModel;
-  setAiAgentDetail: () => void;
+  afterUpdate: () => void;
 };
-const AiAgentDetail = ({ aiAgentDetail, setAiAgentDetail }: Props) => {
+const AiAgentDetail = ({ aiAgentDetail, afterUpdate }: Props) => {
   const [activeTab, setActiveTab] = useState<string>("general");
+  const { channels } = useSelector((state: RootState) => state.channels);
 
   const aiAgentApi = AiAgentEndpoint();
 
@@ -24,6 +31,7 @@ const AiAgentDetail = ({ aiAgentDetail, setAiAgentDetail }: Props) => {
     register,
     formState: { errors },
     handleSubmit,
+    control,
   } = useForm<AiAgentModel>();
 
   useEffect(() => {
@@ -33,15 +41,19 @@ const AiAgentDetail = ({ aiAgentDetail, setAiAgentDetail }: Props) => {
   }, [aiAgentDetail]);
 
   const handleUpdate = (data: AiAgentModel) => {
-    toast
-      .promise(aiAgentApi.update.mutateAsync(data), {
+    toast.promise(
+      aiAgentApi.update.mutateAsync(data, {
+        onSuccess: () => {
+          afterUpdate();
+          reset();
+        },
+      }),
+      {
         loading: "Loading...",
         success: "Berhasil Mengupdate!",
         error: "Terjadi Kesalahan",
-      })
-      .then(() => {
-        setAiAgentDetail();
-      });
+      }
+    );
   };
 
   return (
@@ -49,13 +61,13 @@ const AiAgentDetail = ({ aiAgentDetail, setAiAgentDetail }: Props) => {
       <div className="relative cn-box-base">
         <div className="absolute top-3 left-3">
           <button
-            onClick={() => setAiAgentDetail()}
+            onClick={() => afterUpdate()}
             className="text-2xl border border-base p-2 rounded-lg hover:bg-neutral dark:hover:bg-neutralHoverDark  Dark cursor-pointer"
           >
             {GLOBAL_ICONS.arrowBack}
           </button>
         </div>
-        <div className="text-center box-header">
+        <div className="text-center items-center box-header">
           <div className="flex gap-2 justify-center items-center">
             <span className="text-2xl">{GLOBAL_ICONS_FA.bot}</span>
             <h2 className="h1-lg"> {aiAgentDetail.name}</h2>
@@ -64,22 +76,55 @@ const AiAgentDetail = ({ aiAgentDetail, setAiAgentDetail }: Props) => {
             Atur bagaimana Ai agent anda berinteraksi dengan pelanggan anda
           </p>
         </div>
-        <div className="flex justify-between items-center">
-          <TabGroup>
-            {aiAgentTabs.map((tab) => (
-              <Tab
-                onClick={() => setActiveTab(tab.value)}
-                isActive={activeTab === tab.value}
-              >
-                {tab.label}
-              </Tab>
-            ))}
-          </TabGroup>
-          <div></div>
-        </div>
+        <TabGroup>
+          {aiAgentTabs.map((tab) => (
+            <Tab
+              onClick={() => setActiveTab(tab.value)}
+              isActive={activeTab === tab.value}
+            >
+              {tab.label}
+            </Tab>
+          ))}
+        </TabGroup>
       </div>
       <div className="flex items-start mt-4 gap-4">
-        <div className="cn-box-base w-full lg:w-[60%]">
+        <div className="cn-box-base w-full lg:w-[60%] space-y-6">
+          <Input
+            label="Nama"
+            leftItem={GLOBAL_ICONS.bot}
+            placeholder="Masukkan Nama Ai"
+            {...register("name", { required: "Wajib Diisi" })}
+            message={errors.name?.message}
+          />
+          <Controller
+            control={control}
+            name="channelIds"
+            rules={{ required: "Wajib Diisi" }}
+            render={({ field: { value, onChange } }) => (
+              <MultiSelect
+                label="Tugaskan Pada Channel, (Bisa Lebih Dari 1)"
+                value={(value as unknown as string[]) || []}
+                onChange={(selectedOptions) => {
+                  const selectedValues = selectedOptions.map(
+                    (opt) => opt.value
+                  );
+                  onChange(selectedValues);
+                }}
+                options={(channels || []).map((channel) => {
+                  return {
+                    label: channel.name,
+                    value: `${channel.id}`,
+                  };
+                })}
+                message={errors.channelIds?.message}
+                position="bottom"
+                leftItems={Object.entries(channelsMap).map(
+                  ([_, item]) => item.icon
+                )}
+                isDefault
+              />
+            )}
+          />
           <p className="desc text-center my-4">
             Silakan tuliskan instruksi atau perintah yang ingin Anda berikan
             kepada AI, termasuk bagaimana gaya bicara atau cara penyampaiannya.

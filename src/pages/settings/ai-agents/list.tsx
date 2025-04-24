@@ -14,6 +14,7 @@ import MultiSelect from "../../../components/form/MultiSelectInput";
 import AiAgentEndpoint from "../../../apis/endpoints/ai-agent";
 import Skeleton from "react-loading-skeleton";
 import AiAgentDetail from "./detail";
+import Toogle from "../../../components/button/Toogle";
 
 const AiAgentList = () => {
   const { channels } = useSelector((state: RootState) => state.channels);
@@ -27,7 +28,12 @@ const AiAgentList = () => {
     control,
     register,
     formState: { errors },
-  } = useForm<AiAgentModel>();
+    watch,
+  } = useForm<AiAgentModel>({
+    defaultValues: {
+      status: "active",
+    },
+  });
 
   const handleUpsert = async (data: AiAgentModel) => {
     const newAi = await aiAgentApi.create.mutateAsync(data);
@@ -46,10 +52,18 @@ const AiAgentList = () => {
     });
   };
 
+  console.log(watch());
+
   return (
     <>
       {aiAgentDetail ? (
-        <AiAgentDetail setAiAgentDetail={() => setAiAgentDetail(null)} aiAgentDetail={aiAgentDetail} />
+        <AiAgentDetail
+          afterUpdate={async () => {
+            setAiAgentDetail(null);
+            await aiAgentApi.index.refetch();
+          }}
+          aiAgentDetail={aiAgentDetail}
+        />
       ) : (
         <div className="cn-box-base">
           <div className="text-center box-header">
@@ -76,16 +90,18 @@ const AiAgentList = () => {
                     <div className="w-10 h-10 rounded-full flex justify-center items-center bg-primary text-white text-2xl">
                       {GLOBAL_ICONS_FA.bot}
                     </div>
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDelete(ai.id);
-                      }}
-                      className="py-1 relative z-10 px-4 border border-red-500 hover:text-white hover:bg-red-500 text-red-500 rounded-md mt-4 text-xs font-medium"
-                    >
-                      Hapus
-                    </button>
+                    <div className="flex items-center gap-2 mt-4">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(ai.id);
+                        }}
+                        className="py-1 relative z-10 px-4 border border-red-500 hover:text-white hover:bg-red-500 text-red-500 rounded-md text-xs font-medium"
+                      >
+                        Hapus
+                      </button>
+                    </div>
                   </div>
                 ))}
             <div
@@ -102,7 +118,7 @@ const AiAgentList = () => {
       )}
 
       <Modal title="Buat Ai Agent Baru" control={composeModal.control}>
-        <form onSubmit={handleSubmit(handleUpsert)} className="space-y-6">
+        <form onSubmit={handleSubmit(handleUpsert)} className="space-y-4">
           <Input
             label="Nama"
             leftItem={GLOBAL_ICONS.bot}
@@ -143,6 +159,19 @@ const AiAgentList = () => {
             Ai agent akan membalas pesan yang berasal dari channel yang anda set
             diatas
           </p>
+          <Controller
+            control={control}
+            name="status"
+            render={({ field: { value, onChange } }) => (
+              <Toogle
+                label="Status"
+                value={value === "active" ? true : false}
+                onChange={() => {
+                  onChange(value === "active" ? "inactive" : "active");
+                }}
+              />
+            )}
+          />
           <Actions
             error={aiAgentApi.create.error}
             loading={aiAgentApi.create.isPending}
