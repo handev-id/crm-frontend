@@ -1,3 +1,9 @@
+import {
+  NewMessageState,
+  setConversation,
+  setFrom,
+  setMessage,
+} from "../utils/store/slices/new-message";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../utils/store";
 import { setIsOpen, setIsOpenDetail } from "../utils/store/slices/drawer";
@@ -11,29 +17,23 @@ import { useEffect } from "react";
 import { axiosInstance } from "../apis/axios";
 import { setProfile } from "../utils/store/slices/my-profile";
 import { confirmAlert } from "../utils/confirmAlert";
+import { useNotification } from "../utils/hooks/useNotification";
+import { delay } from "../utils/helpers";
+import { setChannels } from "../utils/store/slices/channels";
 import Avatar from "../components/Avatar";
 import moment from "moment";
 import OnlineStatus from "../components/OnlineStatus";
 import logo from "../assets/images/logo-png-250/2.png";
 import AuthEndpoint from "../apis/endpoints/auth";
-import {
-  NewMessageState,
-  setConversation,
-  setFrom,
-  setMessage,
-} from "../utils/store/slices/new-message";
 import socket from "../apis/socket";
-import { useNotification } from "../utils/hooks/useNotification";
 import useAudio from "../utils/hooks/useAudio";
-import { delay } from "../utils/helpers";
 import ChannelsEndpoint from "../apis/endpoints/channels";
-import { setChannels } from "../utils/store/slices/channels";
 
 const MainLayout = () => {
   const navigate = useNavigate();
   const location = useLocation().pathname;
   const dispatch = useDispatch();
-  const [cookies, removeCookie] = useCookies(["token"]);
+  const [cookies, _, removeCookie] = useCookies(["token"]);
   const { notify } = useNotification();
   const { isOpenDetail } = useSelector((state: RootState) => state.drawer);
   const { isDarkMode, theme } = useSelector((state: RootState) => state.theme);
@@ -50,7 +50,6 @@ const MainLayout = () => {
 
   async function loadData() {
     const channels = await channelsApi.index.mutateAsync({});
-    console.log(channels);
     dispatch(setChannels(channels));
   }
 
@@ -93,16 +92,18 @@ const MainLayout = () => {
         {
           onSuccess: (result) => {
             axiosInstance.defaults.headers.common.Authorization = `Bearer ${cookies.token}`;
+            dispatch(setProfile(result));
             delay(500, async () => {
-              dispatch(setProfile(result));
               await loadData();
             });
           },
           onError: () => {
-            window.location.replace("/login");
+            navigate("/login", { replace: true });
           },
         }
       );
+    } else {
+      navigate("/login", { replace: true });
     }
   }, [cookies.token]);
 
@@ -116,8 +117,6 @@ const MainLayout = () => {
       },
     });
   };
-
-  if (!authApi.checkToken.data) return <div>Loading...</div>;
 
   return (
     <>
@@ -242,36 +241,40 @@ const MainLayout = () => {
 
       <div className="fixed border-t border-base hidden max-sm:block left-0 bottom-0 bg-neutral dark:bg-neutralDark w-full z-30">
         <div className="grid grid-cols-5">
-          {NavigationMenu.map((menu, idx) => (
-            <div
-              key={idx}
-              onClick={() => {
-                if (menu.title === "Chats") {
-                  setIsOpen(true);
-                }
-                if (location.includes(menu?.location as string)) {
-                  return;
-                } else if (menu?.location) {
-                  navigate(menu?.location);
-                }
-              }}
-            >
-              <CustomButton
-                ripleColor="bg-black/30 dark:bg-white/30"
-                type="button"
-                className={`flex items-center flex-col justify-center ${
-                  location?.includes(menu?.location as string)
-                    ? "text-primary dark:text-primaryDark"
-                    : "text-neutralDark dark:text-neutral opacity-60"
-                } bg-transparent shadow-none rounded-lg text-[22px] w-full py-4 px-[18px] hover:bg-neutralHover dark:hover:bg-neutralHoverDark hover:shadow-none`}
+          {NavigationMenu.map((menu, idx) => {
+            const isRoot = menu.location === "/";
+            const isActive = isRoot
+              ? location === "/"
+              : location.startsWith(menu.location);
+
+            return (
+              <div
+                key={idx}
+                onClick={() => {
+                  if (menu.title === "Chats") {
+                    dispatch(setIsOpen(true));
+                  }
+
+                  if (!isActive && menu.location) {
+                    navigate(menu.location);
+                  }
+                }}
               >
-                {location?.includes(menu?.location as string)
-                  ? menu.icon
-                  : menu.outlineIcon}
-                <div className="text-xs mt-[2px]">{menu?.title}</div>
-              </CustomButton>
-            </div>
-          ))}
+                <CustomButton
+                  ripleColor="bg-black/30 dark:bg-white/30"
+                  type="button"
+                  className={`flex items-center flex-col justify-center ${
+                    isActive
+                      ? "text-primary dark:text-primaryDark"
+                      : "text-neutralDark dark:text-neutral opacity-60"
+                  } bg-transparent shadow-none rounded-lg text-[22px] w-full py-4 px-[18px] hover:bg-neutralHover dark:hover:bg-neutralHoverDark hover:shadow-none`}
+                >
+                  {isActive ? menu.icon : menu.outlineIcon}
+                  <div className="text-xs mt-[2px]">{menu?.title}</div>
+                </CustomButton>
+              </div>
+            );
+          })}
         </div>
       </div>
     </>

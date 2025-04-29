@@ -16,7 +16,7 @@ type SettingMenuItem = {
 };
 
 export const settingMenusMap: Record<string, SettingMenuItem> = {
-  "/settings": {
+  "/settings/tenant": {
     title: "Bisnis Saya",
     icon: GLOBAL_ICONS_FA.business,
     allowed: ["owner"],
@@ -51,12 +51,4 @@ export const settingMenusMap: Record<string, SettingMenuItem> = {
     icon: GLOBAL_ICONS_FA.tags,
     allowed: ["owner"],
   },
-};
-
-export const channelsMap = {
-  whatsapp: { icon: GLOBAL_ICONS.whatsapp, label: "Whatsapp" },
-  facebook: { icon: GLOBAL_ICONS.facebook, label: "Facebook" },
-  instagram: { icon: GLOBAL_ICONS.instagram, label: "Instagram" },
-  tiktok: { icon: GLOBAL_ICONS.tiktok, label: "Tiktok" },
-  telegram: { icon: GLOBAL_ICONS.telegram, label: "Telegram" },
 };

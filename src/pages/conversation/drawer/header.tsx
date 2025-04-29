@@ -4,13 +4,13 @@ import { CostumTooltip } from "../../../components/tooltip/CustomTooltip";
 import { useState } from "react";
 import { UseFormSetValue, UseFormWatch } from "react-hook-form";
 import { ConversationState } from ".";
-import { channelsMap, filteringConversation } from "../../../utils/constant";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../utils/store";
 import Tab, { TabGroup } from "../../../components/Tab";
 import Select from "../../../components/form/SelectInput";
 import LargeSelect from "../../../components/form/LargeSelectInput";
 import SearchInput from "../../../components/form/SearchInput";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../utils/store";
+import { filteringConversation } from "../../../utils/constant";
 
 type Props = {
   watch: UseFormWatch<ConversationState>;
@@ -69,17 +69,15 @@ const Header = ({ watch, setValue }: Props) => {
               <Select
                 options={(channels || []).map((channel) => {
                   return {
-                    label:
-                      channelsMap[channel.name as keyof typeof channelsMap]
-                        ?.label || "-",
-                    value: channel.name,
+                    label: channel.name,
+                    value: channel.id,
                   };
                 })}
                 onChange={(value) => {}}
                 containerClassName="mx-6 w-full"
-                leftItems={Object.entries(channelsMap).map(
-                  ([_, item]) => item.icon
-                )}
+                leftItems={channels?.map((channel) => (
+                  <img src={channel?.logo?.url} />
+                ))}
               />
               <div className="flex gap-2 items-center">
                 <CustomButton

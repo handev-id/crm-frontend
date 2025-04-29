@@ -69,8 +69,7 @@ const App = () => {
               element: <SettingsLayout />,
               children: [
                 {
-                  path: "",
-                  index: true,
+                  path: "tenant",
                   element: <Tenant />,
                 },
                 {

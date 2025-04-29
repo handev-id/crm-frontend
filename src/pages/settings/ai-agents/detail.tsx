@@ -1,7 +1,6 @@
 import { GLOBAL_ICONS } from "../../../utils/icons";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../utils/store";
-import { channelsMap } from "../../../utils/constant";
 import { Controller, useForm } from "react-hook-form";
 import { AiAgentModel } from "../../../apis/models/ai-agent";
 import { useEffect, useState } from "react";
@@ -12,7 +11,6 @@ import TextArea from "../../../components/form/TextArea";
 import Tab, { TabGroup } from "../../../components/Tab";
 import AiAgentEndpoint from "../../../apis/endpoints/ai-agent";
 import toast from "react-hot-toast";
-import Toogle from "../../../components/button/Toogle";
 import Input from "../../../components/form/Input";
 import MultiSelect from "../../../components/form/MultiSelectInput";
 
@@ -58,7 +56,7 @@ const AiAgentDetail = ({ aiAgentDetail, afterUpdate }: Props) => {
 
   return (
     <>
-      <div className="relative cn-box-base">
+      <div id="ai-agent-detail" className="relative cn-box-base">
         <div className="absolute top-3 left-3">
           <button
             onClick={() => afterUpdate()}
@@ -118,9 +116,9 @@ const AiAgentDetail = ({ aiAgentDetail, afterUpdate }: Props) => {
                 })}
                 message={errors.channelIds?.message}
                 position="bottom"
-                leftItems={Object.entries(channelsMap).map(
-                  ([_, item]) => item.icon
-                )}
+                leftItems={channels?.map((channel) => (
+                  <img src={channel?.logo?.url} alt="" />
+                ))}
                 isDefault
               />
             )}

@@ -1,24 +1,26 @@
 import Tab, { TabGroup } from "../../../components/Tab";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../utils/store";
 import { useState } from "react";
-import { channelsMap } from "../../../utils/constant";
 import Whatsapp from "./whatsapp";
 import Telegram from "./telegram";
 
 const Channels = () => {
-  const [currentChannel, setCurrentChannel] = useState("Whatsapp");
+  const [currentChannel, setCurrentChannel] = useState("whatsapp");
+  const { channels } = useSelector((state: RootState) => state.channels);
 
   return (
     <div className="space-y-4">
       <div className="cn-box-base">
         <div className="flex justify-between items-center">
           <TabGroup>
-            {Object.entries(channelsMap).map(([channel]) => (
+            {(channels || []).map((channel) => (
               <Tab
-                key={channel}
-                onClick={() => setCurrentChannel(channel)}
-                isActive={channel === currentChannel}
+                key={channel.id}
+                onClick={() => setCurrentChannel(channel.name)}
+                isActive={channel.name === currentChannel}
               >
-                {channel}
+                {channel.name}
               </Tab>
             ))}
           </TabGroup>
@@ -26,9 +28,9 @@ const Channels = () => {
         </div>
       </div>
       <div className="cn-box-base">
-        {currentChannel === "Whatsapp" ? (
+        {currentChannel === "whatsapp" ? (
           <Whatsapp />
-        ) : currentChannel === "Telegram" ? (
+        ) : currentChannel === "telegram" ? (
           <Telegram />
         ) : null}
       </div>

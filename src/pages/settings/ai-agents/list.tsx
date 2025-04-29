@@ -4,7 +4,6 @@ import { GLOBAL_ICONS } from "../../../utils/icons";
 import { AiAgentModel } from "../../../apis/models/ai-agent";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../utils/store";
-import { channelsMap } from "../../../utils/constant";
 import { confirmAlert } from "../../../utils/confirmAlert";
 import { GLOBAL_ICONS_FA } from "../../../utils/icons/fa";
 import { useState } from "react";
@@ -65,7 +64,7 @@ const AiAgentList = () => {
           aiAgentDetail={aiAgentDetail}
         />
       ) : (
-        <div className="cn-box-base">
+        <div id="ai-agents" className="cn-box-base">
           <div className="text-center box-header">
             <h2 className="h1-lg">Ai Agent</h2>
             <p className="desc mt-1">
@@ -148,9 +147,6 @@ const AiAgentList = () => {
                 })}
                 message={errors.channelIds?.message}
                 position="bottom"
-                leftItems={Object.entries(channelsMap).map(
-                  ([_, item]) => item.icon
-                )}
                 isDefault
               />
             )}

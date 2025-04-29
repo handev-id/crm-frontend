@@ -7,6 +7,7 @@ import store from "./utils/store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ConfirmModal from "./components/modal/confirm";
 import { Toaster } from "react-hot-toast";
+import { CookiesProvider } from "react-cookie";
 
 const client = new QueryClient({
   defaultOptions: {
@@ -18,12 +19,14 @@ const client = new QueryClient({
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   // <React.StrictMode>
-  <QueryClientProvider client={client}>
-    <Provider store={store}>
-      <Toaster />
-      <ConfirmModal />
-      <App />
-    </Provider>
-  </QueryClientProvider>
+  <CookiesProvider>
+    <QueryClientProvider client={client}>
+      <Provider store={store}>
+        <Toaster />
+        <ConfirmModal />
+        <App />
+      </Provider>
+    </QueryClientProvider>
+  </CookiesProvider>
   // </React.StrictMode>
 );

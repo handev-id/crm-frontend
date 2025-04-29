@@ -30,8 +30,8 @@ const Layout = () => {
         >
           {Object.entries(settingMenusMap).map(([path, menu]) => (
             <div key={path}>
-              {menu.allowed?.some((allow) =>
-                profile?.roles && profile.roles.includes(allow)
+              {menu.allowed?.some(
+                (allow) => profile?.roles && profile.roles.includes(allow)
               ) && (
                 <Link
                   to={path}
@@ -50,6 +50,7 @@ const Layout = () => {
         </div>
         <div
           className={`w-full duration-500 sm:pl-[85px] pb-48 sm:pb-[335px] lg:w-[75%] z-10 max-lg:absolute top-0 overflow-y-auto scrollbar h-full bg-neutral dark:bg-Dark px-4 lg:p-6 ${
+            location.pathname !== "/settings" &&
             Object.keys(settingMenusMap).find(
               (item) => item === location.pathname
             )

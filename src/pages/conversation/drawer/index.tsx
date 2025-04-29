@@ -10,7 +10,6 @@ import Header from "./header";
 import ConversationList from "./list";
 import ConversationsEndpoint from "../../../apis/endpoints/conversations";
 import SkeletonComponent from "../../../components/Skeleton";
-import socket from "../../../apis/socket";
 
 export type ConversationState = {
   conversationIds: number[];
@@ -93,10 +92,7 @@ const Drawer = () => {
         <div className="scrollbar h-screen overflow-x-hidden pb-20 overflow-y-auto">
           {conversations.length > 0 && !convsersationsApi.index.isPending
             ? conversations.map((conv, index) => (
-                <div
-                  key={conv.id} // ✅ gunakan id sebagai key
-                  onClick={() => activedConversation(conv)}
-                >
+                <div key={conv.id} onClick={() => activedConversation(conv)}>
                   <Controller
                     control={control}
                     name="conversationIds"
@@ -114,7 +110,7 @@ const Drawer = () => {
                 </div>
               ))
             : Array.from({ length: 8 }).map((_, i) => (
-                <div className="my-1 mx-3">
+                <div key={i} className="my-1 mx-3">
                   <SkeletonComponent type="user-list" />
                 </div>
               ))}

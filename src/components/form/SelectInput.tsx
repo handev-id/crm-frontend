@@ -4,7 +4,7 @@ import { FaChevronDown } from "react-icons/fa";
 
 export type OptionType = {
   label: string;
-  value: string;
+  value: string | number;
 };
 
 type Props = {
