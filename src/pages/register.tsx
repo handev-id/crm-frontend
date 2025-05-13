@@ -1,6 +1,6 @@
 import { Controller, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Input from "../components/form/Input";
 import Select, { OptionType } from "../components/form/SelectInput";
 import Button from "../components/button/Button";
@@ -181,7 +181,7 @@ const Register = () => {
           )}
 
           {/* BUTTONS */}
-          <div className="mt-4">
+          <div className="my-4">
             {isAccount ? (
               <Button
                 loading={authApi.register.isPending}

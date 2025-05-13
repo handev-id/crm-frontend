@@ -110,7 +110,7 @@ const Login = () => {
           >
             Login
           </Button>
-          <span>
+          <span className="text-sm">
             Belum Punya Akun?{" "}
             <Link className="text-blue-500" to={"/register"}>
               Daftar Disini
