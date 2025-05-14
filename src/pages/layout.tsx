@@ -98,7 +98,7 @@ const MainLayout = () => {
             });
           },
           onError: () => {
-            navigate("/login", { replace: true });
+            window.location.replace("/login");
           },
         }
       );

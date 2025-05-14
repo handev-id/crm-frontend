@@ -10,6 +10,7 @@ import { UserModel } from "../../../apis/models/user";
 import LargeSelect from "../../../components/form/LargeSelectInput";
 import InputEmoji from "react-input-emoji";
 import socket from "../../../apis/socket";
+import Attachment from "../../../components/form/Attachment";
 
 const Form = () => {
   const dispatch = useDispatch();
@@ -30,13 +31,14 @@ const Form = () => {
         createdAt: new Date().toISOString(),
         senderType: "user",
         text: data.text,
-        attachment: null,
+        attachment: data?.attachment || null,
         webhookMessageId: 0,
         updatedAt: new Date().toISOString(),
         id: 0,
         conversationId: conversation?.id!,
       })
     );
+    console.log(data);
 
     reset();
   };
@@ -48,6 +50,7 @@ const Form = () => {
         conversationId: conversation.id,
         senderId: profile!.id,
         webhookConversationId: conversation.webhookConversationId,
+        channelId: conversation.channelId,
       });
     }
   }, [profile, conversation]);
@@ -55,7 +58,7 @@ const Form = () => {
   return (
     <form
       onSubmit={control.handleSubmit(onSubmit)}
-      className="flex flex-col items-start text-neutralDark dark:text-neutral p-2 shadow-lg dark:border-neutralHover/10 border-neutralDark/10 border rounded-lg bg-white dark:bg-Dark"
+      className="flex flex-col mx-2 items-start text-neutralDark dark:text-neutral p-2 shadow-lg dark:border-neutralHover/10 border-neutralDark/10 border rounded-lg bg-white dark:bg-Dark"
     >
       {/* <div className="bg-neutral flex items-center gap-2 dark:bg-neutralDark text-xs py-1.5 px-2 mb-4 rounded-md">
         <span>Reply: John Doe </span>
@@ -63,13 +66,14 @@ const Form = () => {
           {GLOBAL_ICONS.closeX}
         </span>
       </div> */}
-      <div className="flex items-center gap-2">
-        <CustomButton
-          ripleColor="bg-black/30 dark:bg-white/30"
-          className="p-3 text-xl text-Dark dark:text-neutral hover:bg-neutral dark:bg-neutralDark rounded-lg dark:hover:bg-neutralHoverDark"
-        >
-          {GLOBAL_ICONS.imagePlus}
-        </CustomButton>
+      <div className="flex items-center gap-3 ml-3 py-1">
+        <Controller
+          name="attachment"
+          control={control}
+          render={({ field: { value, onChange } }) => (
+            <Attachment value={value} onChange={onChange} />
+          )}
+        />
         <LargeSelect
           top={-140}
           options={[

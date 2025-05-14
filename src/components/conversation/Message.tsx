@@ -1,9 +1,8 @@
-import { CiClock2 } from "react-icons/ci";
 import { MessageModel } from "../../apis/models/message";
+import { GLOBAL_ICONS } from "../../utils/icons";
 import React from "react";
 import Attachment from "../Attachment";
 import moment from "moment";
-import { GLOBAL_ICONS } from "../../utils/icons";
 
 interface ChatBubbleProps {
   position?: "left" | "right";
@@ -42,15 +41,9 @@ const Message: React.FC<ChatBubbleProps> = ({
           >
             {message?.attachment && <Attachment message={message} />}
             {message?.text !== "[File]" && (
-              <span
-                className={
-                  message?.attachment
-                    ? "mt-2 whitespace-pre-line"
-                    : "m-0 p-0 whitespace-pre-line"
-                }
-              >
-                {message.text}
-              </span>
+              <div className={message?.attachment ? "mt-3" : "mt-0"}>
+                <span className={"whitespace-pre-line"}>{message.text}</span>
+              </div>
             )}
           </p>
         </>

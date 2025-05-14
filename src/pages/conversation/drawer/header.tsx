@@ -6,11 +6,11 @@ import { UseFormSetValue, UseFormWatch } from "react-hook-form";
 import { ConversationState } from ".";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../utils/store";
+import { filteringConversation } from "../../../utils/constant";
 import Tab, { TabGroup } from "../../../components/Tab";
 import Select from "../../../components/form/SelectInput";
 import LargeSelect from "../../../components/form/LargeSelectInput";
 import SearchInput from "../../../components/form/SearchInput";
-import { filteringConversation } from "../../../utils/constant";
 
 type Props = {
   watch: UseFormWatch<ConversationState>;
@@ -76,7 +76,10 @@ const Header = ({ watch, setValue }: Props) => {
                 onChange={(value) => {}}
                 containerClassName="mx-6 w-full"
                 leftItems={channels?.map((channel) => (
-                  <img src={channel?.logo?.url} />
+                  <img
+                    className="w-5 h-5 rounded-full"
+                    src={channel?.logo?.url}
+                  />
                 ))}
               />
               <div className="flex gap-2 items-center">

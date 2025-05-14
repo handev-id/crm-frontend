@@ -10,4 +10,5 @@ export interface MessageModel extends BaseModel {
   senderType: "customer" | "user";
   conversationId: number;
   webhookMessageId: number;
+  channelId?: number;
 }

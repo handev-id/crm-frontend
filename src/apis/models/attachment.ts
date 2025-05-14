@@ -5,4 +5,5 @@ export type AttachmentModel = {
   url?: string;
   width?: number;
   height?: number;
+  fileBuffer?: Buffer;
 };

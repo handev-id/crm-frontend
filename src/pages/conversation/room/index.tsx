@@ -44,7 +44,7 @@ const Room = () => {
       if (from === "user" && lastMessage && lastMessage.id === 0) {
         remove(messages.length - 1);
         insert(messages.length, newMessage);
-        handleScrollRoom(bodyRef, { behavior: "smooth", duration: 100 });
+        handleScrollRoom(bodyRef, { behavior: "smooth", duration: 300 });
       } else {
         insert(messages.length, newMessage);
         handleScrollRoom(bodyRef, { behavior: "smooth", duration: 100 });

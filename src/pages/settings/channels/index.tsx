@@ -2,11 +2,11 @@ import Tab, { TabGroup } from "../../../components/Tab";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../utils/store";
 import { useState } from "react";
-import Whatsapp from "./whatsapp";
 import Telegram from "./telegram";
+import Website from "./website";
 
 const Channels = () => {
-  const [currentChannel, setCurrentChannel] = useState("whatsapp");
+  const [currentChannel, setCurrentChannel] = useState("website");
   const { channels } = useSelector((state: RootState) => state.channels);
 
   return (
@@ -28,8 +28,10 @@ const Channels = () => {
         </div>
       </div>
       <div className="cn-box-base">
-        {currentChannel === "whatsapp" ? (
-          <Whatsapp />
+        {currentChannel === "website" ? (
+          <Website />
+        ) : currentChannel === "whatsapp" ? (
+          <div></div>
         ) : currentChannel === "telegram" ? (
           <Telegram />
         ) : null}

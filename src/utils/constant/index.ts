@@ -1,5 +1,4 @@
 import { RoleKey } from "../../types/roles";
-import { GLOBAL_ICONS } from "../icons";
 import { GLOBAL_ICONS_FA } from "../icons/fa";
 
 export const filteringConversation: Record<string, string>[] = [

@@ -90,7 +90,7 @@ const Drawer = () => {
       <div className="sm:ml-[63px] text-Dark dark:text-neutralHover">
         <Header setValue={setValue} watch={watch} />
         <div className="scrollbar h-screen overflow-x-hidden pb-20 overflow-y-auto">
-          {conversations.length > 0 && !convsersationsApi.index.isPending
+          {!convsersationsApi.index.isPending
             ? conversations.map((conv, index) => (
                 <div key={conv.id} onClick={() => activedConversation(conv)}>
                   <Controller

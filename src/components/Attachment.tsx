@@ -39,6 +39,7 @@ const Attachment = ({ message }: { message: MessageModel }) => {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
+      overflow: "hidden",
     };
 
     if (message?.attachment?.type?.includes("image")) {
