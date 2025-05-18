@@ -38,8 +38,6 @@ const Form = () => {
         conversationId: conversation?.id!,
       })
     );
-    console.log(data);
-
     reset();
   };
 

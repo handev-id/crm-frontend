@@ -13,8 +13,6 @@ export default function useLazyGetApi<T, V = {}>({
       const url =
         typeof endpoint === "function" ? endpoint(variables) : endpoint;
       const config = { ...variables };
-      console.log(variables)
-
       const { data } = await axiosInstance.get<T>(url, config);
       return data;
     },

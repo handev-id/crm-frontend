@@ -25,7 +25,7 @@ const Header = ({ watch, setValue }: Props) => {
   return (
     <>
       <div className="border-b bg-white dark:bg-Dark border-base w-full">
-        <div className="h-16 px-4 flex justify-between items-center">
+        <div className="h-[70px] px-4 flex justify-between items-center">
           {((watch("conversationIds") as unknown as number[]) || []).length ===
             0 && <div className="font-bold text-[18px]">Inbox</div>}
           {((watch("conversationIds") as unknown as number[]) || []).length >
@@ -77,7 +77,7 @@ const Header = ({ watch, setValue }: Props) => {
                 containerClassName="mx-6 w-full"
                 leftItems={channels?.map((channel) => (
                   <img
-                    className="w-5 h-5 rounded-full"
+                    className="w-5 h-5 rounded-full object-cover"
                     src={channel?.logo?.url}
                   />
                 ))}

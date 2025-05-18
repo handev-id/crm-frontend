@@ -51,8 +51,6 @@ const AiAgentList = () => {
     });
   };
 
-  console.log(watch());
-
   return (
     <>
       {aiAgentDetail ? (
@@ -130,8 +128,33 @@ const AiAgentList = () => {
             name="channelIds"
             rules={{ required: "Wajib Diisi" }}
             render={({ field: { value, onChange } }) => (
+              // <MultiSelect
+              //   label="Tugaskan Pada Channel, (Bisa Lebih Dari 1)"
+              //   value={(value as unknown as string[]) || []}
+              //   onChange={(selectedOptions) => {
+              //     const selectedValues = selectedOptions.map(
+              //       (opt) => opt.value
+              //     );
+              //     onChange(selectedValues);
+              //   }}
+              //   options={(channels || []).map((channel) => {
+              //     return {
+              //       label: channel.name,
+              //       value: `${channel.id}`,
+              //     };
+              //   })}
+              //   message={errors.channelIds?.message}
+              //   position="bottom"
+              //   isDefault
+              // />
               <MultiSelect
                 label="Tugaskan Pada Channel, (Bisa Lebih Dari 1)"
+                options={(channels || []).map((channel) => {
+                  return {
+                    label: channel.name,
+                    value: `${channel.id}`,
+                  };
+                })}
                 value={(value as unknown as string[]) || []}
                 onChange={(selectedOptions) => {
                   const selectedValues = selectedOptions.map(
@@ -139,12 +162,12 @@ const AiAgentList = () => {
                   );
                   onChange(selectedValues);
                 }}
-                options={(channels || []).map((channel) => {
-                  return {
-                    label: channel.name,
-                    value: `${channel.id}`,
-                  };
-                })}
+                leftItems={channels?.map((channel) => (
+                  <img
+                    className="w-5 h-5 rounded-full object-cover"
+                    src={channel?.logo?.url}
+                  />
+                ))}
                 message={errors.channelIds?.message}
                 position="bottom"
                 isDefault

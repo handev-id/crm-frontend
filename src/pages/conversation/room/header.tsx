@@ -9,7 +9,7 @@ const Header = () => {
   );
   return (
     <div className="border-b bg-white dark:text-neutral dark:bg-Dark border-base w-full">
-      <div className="h-[65px] px-4 flex justify-between items-center">
+      <div className="h-[71px] px-4 flex justify-between items-center">
         <div className="font-bold text-[18px]">
           {activeConversation?.customer.fullName}
         </div>

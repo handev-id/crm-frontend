@@ -31,12 +31,7 @@ const Login = () => {
           onSuccess: (result) => {
             if (result) {
               reset();
-              setCookie("token", result.token, {
-                path: "/",
-                maxAge: 60 * 60 * 24,
-                sameSite: "lax",
-                secure: false,
-              });
+              setCookie("token", result.token);
               navigate("/");
             }
           },

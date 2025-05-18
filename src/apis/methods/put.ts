@@ -22,32 +22,26 @@ export default function usePutApi<T, V extends Record<string, any> = {}>({
         const formData = new FormData();
 
         for (const [key, value] of Object.entries(payload as object)) {
-
           if (value !== undefined && value !== null) {
-
             if (value instanceof File) {
               formData.append(key, value);
-
             } else if (Array.isArray(value)) {
-
               value.forEach((item, index) => {
                 if (typeof item === "object" && item !== null) {
                   Object.entries(item).forEach(([subKey, subValue]) => {
-                    formData.append(`${key}[${index}][${subKey}]`, String(subValue));
+                    formData.append(
+                      `${key}[${index}][${subKey}]`,
+                      String(subValue)
+                    );
                   });
                 } else {
                   formData.append(`${key}[${index}]`, String(item));
                 }
-
               });
             } else if (typeof value === "object") {
-              console.log(value)
               Object.entries(value).forEach(([subKey, subValue]) => {
-
                 formData.append(`${key}[${subKey}]`, String(subValue));
-
               });
-
             } else {
               formData.append(key, String(value));
             }

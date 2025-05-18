@@ -55,7 +55,13 @@ const ConversationList = ({
         />
         <div>
           <div className="flex gap-2 items-center">
-            <Avatar />
+            <div className="relative">
+              <Avatar />
+              <img
+                className="w-[21px] h-[21px] rounded-full absolute bottom-0 bg-white object-cover -right-1 border border-white dark:bg-Dark dark:border-Dark"
+                src={conversation.channel.logo?.url}
+              />
+            </div>
             <div
               className={`leading-5 ${
                 ((watch("conversationIds") as number[]) || []).length > 0

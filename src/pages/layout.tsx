@@ -82,29 +82,27 @@ const MainLayout = () => {
   }, [socket, profile?.tenant?.id]);
 
   useEffect(() => {
-    if (cookies.token) {
-      authApi.checkToken.mutate(
-        {
-          headers: {
-            Authorization: `Bearer ${cookies.token}`,
-          },
+    if (!cookies.token) return;
+    authApi.checkToken.mutate(
+      {
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
         },
-        {
-          onSuccess: (result) => {
-            axiosInstance.defaults.headers.common.Authorization = `Bearer ${cookies.token}`;
-            dispatch(setProfile(result));
-            delay(500, async () => {
-              await loadData();
-            });
-          },
-          onError: () => {
-            window.location.replace("/login");
-          },
-        }
-      );
-    } else {
-      navigate("/login", { replace: true });
-    }
+      },
+      {
+        onSuccess: (result) => {
+          axiosInstance.defaults.headers.common.Authorization = `Bearer ${cookies.token}`;
+          dispatch(setProfile(result));
+          socket.auth = { token: cookies.token };
+          delay(500, async () => {
+            await loadData();
+          });
+        },
+        onError: () => {
+          window.location.replace("/login");
+        },
+      }
+    );
   }, [cookies.token]);
 
   const onLogout = () => {

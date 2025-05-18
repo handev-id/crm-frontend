@@ -1,9 +1,24 @@
-export const fallbackMimeTypes: Record<string, string> = {
+export const mimeTypes: Record<string, string> = {
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
   ".png": "image/png",
   ".gif": "image/gif",
   ".mp4": "video/mp4",
+  ".oga": "audio/ogg",
+  ".ogg": "audio/ogg",
+  ".mp3": "audio/mpeg",
+  ".wav": "audio/wav",
+  ".webm": "video/webm",
+  ".mov": "video/quicktime",
+  ".m4a": "audio/mp4",
+  ".zip": "application/zip",
+  ".rar": "application/vnd.rar",
+  ".7z": "application/x-7z-compressed",
+  ".txt": "text/plain",
+  ".csv": "text/csv",
+  ".json": "application/json",
+  ".apk": "application/vnd.android.package-archive",
+  ".heic": "image/heic", // kadang dari iPhone
   ".pdf": "application/pdf",
   ".doc": "application/msword",
   ".docx":

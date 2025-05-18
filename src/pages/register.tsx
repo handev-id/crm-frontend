@@ -117,9 +117,9 @@ const Register = () => {
                   rules={{ required: "Wajib Diisi" }}
                   render={({ field }) => (
                     <Input
-                      label="Email Bisnis"
+                      label="Email"
                       leftItem={GLOBAL_ICONS.email}
-                      placeholder="Masukkan Email Bisnis Anda"
+                      placeholder="Masukkan Email Anda"
                       sizing="sm"
                       {...field}
                       message={errors.email?.message}
@@ -133,10 +133,10 @@ const Register = () => {
                   render={({ field }) => (
                     <Input
                       leftItem={GLOBAL_ICONS.phone}
-                      placeholder="Masukkan No Telpon / Whatsapp Bisnis Anda"
+                      placeholder="Masukkan No Telpon / Whatsapp Anda"
                       {...field}
                       sizing="sm"
-                      label="No Telpon / Whatsapp Bisnis"
+                      label="No Telpon / Whatsapp"
                       type="number"
                       message={errors.phone?.message}
                     />

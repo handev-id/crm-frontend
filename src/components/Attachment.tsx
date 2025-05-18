@@ -73,6 +73,23 @@ const Attachment = ({ message }: { message: MessageModel }) => {
       );
     }
 
+    if (message?.attachment?.type?.includes("audio")) {
+      return (
+        <div>
+          <video
+            ref={attachmentRef as React.RefObject<HTMLVideoElement>}
+            controls={isVisible}
+            className="object-contain h-full w-full rounded-lg"
+          >
+            {isVisible && (
+              <source src={message.attachment.url} type="video/mp4" />
+            )}
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      );
+    }
+
     if (message?.attachment?.type?.includes("application")) {
       return (
         <a target="_blank" href={message?.attachment?.url}>

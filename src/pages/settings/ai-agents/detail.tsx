@@ -100,7 +100,13 @@ const AiAgentDetail = ({ aiAgentDetail, afterUpdate }: Props) => {
             rules={{ required: "Wajib Diisi" }}
             render={({ field: { value, onChange } }) => (
               <MultiSelect
-                label="Tugaskan Pada Channel, (Bisa Lebih Dari 1)"
+                label="Tugaskan Pada Channel (Bisa lebih dari 1)"
+                options={(channels || []).map((channel) => {
+                  return {
+                    label: channel.name,
+                    value: `${channel.id}`,
+                  };
+                })}
                 value={(value as unknown as string[]) || []}
                 onChange={(selectedOptions) => {
                   const selectedValues = selectedOptions.map(
@@ -108,17 +114,14 @@ const AiAgentDetail = ({ aiAgentDetail, afterUpdate }: Props) => {
                   );
                   onChange(selectedValues);
                 }}
-                options={(channels || []).map((channel) => {
-                  return {
-                    label: channel.name,
-                    value: `${channel.id}`,
-                  };
-                })}
+                leftItems={channels?.map((channel) => (
+                  <img
+                    className="w-5 h-5 rounded-full object-cover"
+                    src={channel?.logo?.url}
+                  />
+                ))}
                 message={errors.channelIds?.message}
                 position="bottom"
-                leftItems={channels?.map((channel) => (
-                  <img src={channel?.logo?.url} alt="" />
-                ))}
                 isDefault
               />
             )}
@@ -161,7 +164,15 @@ const AiAgentDetail = ({ aiAgentDetail, afterUpdate }: Props) => {
             </div>
           </form>
         </div>
-        <div className="cn-box-base w-full lg:w-[40%]">... Testing</div>
+        <div className="cn-box-base w-full lg:w-[40%]">
+          <TextArea
+            rows={20}
+            label="Sumber Pengetahuan"
+            placeholder="Tulis Sumber Pengatahuan Untk Ai Anda Disini"
+            {...register("knowlageResource")}
+            className="text-sm scrollbar"
+          />
+        </div>
       </div>
     </>
   );

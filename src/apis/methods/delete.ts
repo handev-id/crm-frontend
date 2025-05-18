@@ -15,8 +15,6 @@ export default function useDeleteApi<T, V = {}>({
       const config = { ...variables };
       delete config.params;
 
-      console.log(config)
-
       const { data } = await axiosInstance.delete<T>(url, config);
       return data;
     },

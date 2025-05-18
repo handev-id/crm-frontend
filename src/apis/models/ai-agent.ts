@@ -6,6 +6,7 @@ import { TenantModel } from "./tenant";
 export interface AiAgentModel extends BaseModel {
   name: string;
   welcomeMessage: string;
+  knowlageResource?: string;
   instruction: string;
   avatar?: File | AttachmentModel | null;
   status: "active" | "inactive";
