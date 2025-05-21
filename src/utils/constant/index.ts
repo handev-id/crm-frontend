@@ -3,8 +3,8 @@ import { GLOBAL_ICONS_FA } from "../icons/fa";
 
 export const filteringConversation: Record<string, string>[] = [
   { title: "Semua", value: "all" },
-  { title: "Ditangani", value: "assigned" },
-  { title: "Menunggu", value: "unassigned" },
+  { title: "Assigned", value: "assigned" },
+  { title: "Unassigned", value: "unassigned" },
   { title: "Arsip", value: "archived" },
 ];
 

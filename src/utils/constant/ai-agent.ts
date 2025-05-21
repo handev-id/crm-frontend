@@ -1,5 +1,5 @@
 export const aiAgentTabs = [
   { label: "Umum", value: "general" },
-  { label: "Smber Pengetahuan", value: "resource" },
+  { label: "Testing", value: "testing" },
   { label: "Follow Up", value: "follwoup" },
 ];
